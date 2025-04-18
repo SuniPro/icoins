@@ -23,7 +23,7 @@ export function Main() {
           justify-content: center;
           align-items: center;
           margin-top: 40px;
-          margin-bottom: 70px;
+          margin-bottom: 50px;
 
           gap: 10px;
         `}
@@ -59,7 +59,7 @@ const SubjectTitle = styled.span<{ theme: Theme; fontSize?: number }>(
 
 const MainContainer = styled.main`
   width: 100%;
-  margin-top: 2.5rem;
+  margin-top: 1rem;
 
   display: flex;
   flex-direction: column;

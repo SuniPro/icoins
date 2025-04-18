@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="/favicon.ico" rel="icon" type="image/svg+xml" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nanum+Gothic:wght@400;700;800&family=Pacifico&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      data-srs=""
+      href="https://www.apple.com/wss/fonts?families=SF+Pro,v3:200,300,400,500,600|SF+Pro+Icons,v3|Apple+Monochrome+Emoji,v3|Apple+Monochrome+Emoji+Ind,v2|Graphik,v1"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://db.onlinewebfonts.com/c/67680f2eb947c5cbd58b40961b4a61e9?family=Apple+SD+Gothic+Neo+Bold"
+      rel="stylesheet"
+    />
+    <title>icoins</title>
+  </head>
+  <style>
+    @font-face {
+      font-family: "iBrand";
+      src: url("/ibrand.otf") format("opentype");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "KOPUB Dotum bold";
+      src: url("/KoPubDotum_ProBold.otf") format("opentype");
+      font-weight: 600;
+      font-display: swap;
+    }
+
+    body {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .LogoContainer {
+      transform: translateY(100%);
+      width: 630px;
+      height: 140px;
+      -webkit-align-items: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+
+      .logo-text-case {
+        white-space: nowrap;
+        height: 100px;
+        color: #037aed;
+        font-family: iBrand, serif;
+        font-weight: 700;
+        font-size: 80px;
+        -ms-transform: translateY(0%);
+      }
+
+      .StyledI {
+        font-size: 90px;
+        white-space: nowrap;
+        height: 100px;
+        color: #037aed;
+        font-weight: 700;
+        -ms-transform: translateY(0%);
+      }
+
+      .SubjectTitle {
+        font-family:
+          KOPUB Dotum bold,
+          serif;
+      }
+
+      .title {
+        transform: translateY(110%);
+        font-size: 30px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        img {
+          width: 40px;
+          height: 40px;
+
+          margin-right: 1rem;
+        }
+      }
+
+      .redirect {
+        transform: translateY(300%);
+      }
+    }
+  </style>
+  <body>
+    <div
+      class="LogoContainer"
+      onclick="window.location.replace('https://www.icointext.com')"
+    >
+      <span class="logo-text-case"><span class="StyledI">i</span> conins</span
+      ><span class="SubjectTitle"
+        >오직 당신을 위한 프라이빗 안전거래 시스템</span
+      >
+      <div class="title">
+        <img alt="warning" src="./src/assets/image/warning.png" />
+        <span>잘못된 접근입니다.</span>
+      </div>
+      <span class="redirect">로고를 눌러 홈으로 돌아가주세요.</span>
+    </div>
+  </body>
+</html>

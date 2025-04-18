@@ -24,11 +24,11 @@ interface InitOptions {
   allowStatus?: number[];
 }
 
-export async function getFromICoinsServer(
+export async function getFromUserServer(
   url: string,
   init: InitOptions = { skipError: false },
 ): Promise<AxiosResponse> {
-  const server = import.meta.env.VITE_EMPLOYEE_SERVER_PREFIX;
+  const server = import.meta.env.VITE_USER_SERVER_PREFIX;
   const serverUrl = server + url;
   return axios
     .get(serverUrl, {
@@ -38,13 +38,13 @@ export async function getFromICoinsServer(
     .catch(errorHandler);
 }
 
-export async function postToICoinsServer(
+export async function postToUserServer(
   url: string,
   // eslint-disable-next-line
   param: any,
   init: RequestInit & { skipError?: boolean } = {},
 ): Promise<AxiosResponse> {
-  const server = import.meta.env.VITE_EMPLOYEE_SERVER_PREFIX;
+  const server = import.meta.env.VITE_USER_SERVER_PREFIX;
   const serverUrl = server + url;
   return axios
     .post(serverUrl, param, {
@@ -54,13 +54,13 @@ export async function postToICoinsServer(
     .then((response) => responseHandler(response, serverUrl, init));
 }
 
-export async function putToICoinsServer(
+export async function putToUserServer(
   url: string,
   // eslint-disable-next-line
   param: any,
   init: RequestInit & { skipError?: boolean } = {},
 ): Promise<AxiosResponse> {
-  const server = import.meta.env.VITE_EMPLOYEE_SERVER_PREFIX;
+  const server = import.meta.env.VITE_USER_SERVER_PREFIX;
   const serverUrl = server + url;
   return axios
     .put(serverUrl, param, {
@@ -70,7 +70,23 @@ export async function putToICoinsServer(
     .then((response) => responseHandler(response, serverUrl, init));
 }
 
-export async function updateToICoinsServer(
+export async function patchToUserServer(
+  url: string,
+  // eslint-disable-next-line
+  param: any,
+  init: RequestInit & { skipError?: boolean } = {},
+): Promise<AxiosResponse> {
+  const server = import.meta.env.VITE_USER_SERVER_PREFIX;
+  const serverUrl = server + url;
+  return axios
+    .patch(serverUrl, param, {
+      headers: { "Content-Type": "application/json" },
+    })
+    .catch(errorHandler)
+    .then((response) => responseHandler(response, serverUrl, init));
+}
+
+export async function updateToUserServer(
   url: string,
   // eslint-disable-next-line
   param: any,
@@ -78,7 +94,7 @@ export async function updateToICoinsServer(
     skipError?: boolean;
   } = {},
 ): Promise<AxiosResponse> {
-  const server = import.meta.env.VITE_EMPLOYEE_SERVER_PREFIX;
+  const server = import.meta.env.VITE_USER_SERVER_PREFIX;
   const serverUrl = server + url;
   return axios
     .put(serverUrl, param, {
@@ -88,11 +104,11 @@ export async function updateToICoinsServer(
     .then((response) => responseHandler(response, serverUrl, init));
 }
 
-export async function deleteToICoinsServer(
+export async function deleteToUserServer(
   url: string,
   init: InitOptions = { skipError: false },
 ): Promise<AxiosResponse> {
-  const server = import.meta.env.VITE_EMPLOYEE_SERVER_PREFIX;
+  const server = import.meta.env.VITE_USER_SERVER_PREFIX;
   const serverUrl = server + url;
   return axios
     .delete(serverUrl, {
@@ -100,31 +116,6 @@ export async function deleteToICoinsServer(
     })
     .then((response) => responseHandler(response, serverUrl, init))
     .catch(errorHandler);
-}
-
-export async function postToTravelServerMultiPleFile(
-  url: string,
-  id: string,
-  type: string,
-  param: Blob,
-  init: RequestInit & { skipError?: boolean } = {},
-): Promise<AxiosResponse> {
-  // @ts-ignore
-  const server = import.meta.env.VITE_TRAVEL_SERVER_PREFIX;
-  const serverUrl = server + url;
-  let formData = new FormData();
-
-  formData.append("id", id);
-  formData.append("file", param);
-  formData.append("type", type);
-
-  return axios
-    .post(serverUrl, formData, {
-      headers: { "content-type": "multipart/form-data" },
-      withCredentials: true,
-    })
-    .catch(errorHandler)
-    .then((response) => responseHandler(response, serverUrl, init));
 }
 
 async function responseHandler(

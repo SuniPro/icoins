@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@emotion/react";
 import { darkTheme, defaultTheme } from "./Styles/theme";
 import { WindowContextProvider } from "./context/WindowContext";
-import { UserContextProvider } from "./context/UserContext";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Main } from "./page/Main";
 import { GlobalStyled } from "./components/layouts/Frames/FrameLayouts";
@@ -25,15 +24,14 @@ function App() {
     <ThemeProvider theme={darkMode ? darkTheme : defaultTheme}>
       <QueryClientProvider client={QUERY_CLIENT}>
         <WindowContextProvider>
-          <UserContextProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Main />} />
-              </Routes>
-            </BrowserRouter>
-            <GlobalStyled />
-            <Toaster />
-          </UserContextProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Main />} />
+            </Routes>
+          </BrowserRouter>
+          {/*<footer style={{ height: "40px" }}></footer>*/}
+          <GlobalStyled />
+          <Toaster />
         </WindowContextProvider>
       </QueryClientProvider>
     </ThemeProvider>
