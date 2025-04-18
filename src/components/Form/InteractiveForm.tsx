@@ -1,323 +1,80 @@
-/** @jsxImportSource @emotion/react */
 import { useState } from "react";
 import styled from "@emotion/styled";
-import { css, Theme, useTheme } from "@emotion/react";
-import { Button } from "@mui/material";
-
-type StepProps = {
-  onNext?: () => void;
-  onPrev?: () => void;
-};
-
-const StepOne = ({ onNext }: StepProps) => (
-  <>
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      `}
-    >
-      <Title>입금 전 안내사항</Title>
-      <ul>
-        <li>반드시 본인의 지갑주소를 정확히 입력하세요.</li>
-        <li>안내받은 입금 전용 주소를 정확히 확인 후에 입금하세요.</li>
-        <li>회원님의 부주의로 인한 문제 발생 시 반환이 불가합니다.</li>
-      </ul>
-    </div>
-
-    <StyledButton type="button" onClick={onNext}>
-      동의
-    </StyledButton>
-  </>
-);
-
-const StepTwo = ({ onNext, onPrev }: StepProps) => {
-  const theme = useTheme();
-  return (
-    <>
-      <Title>유저이름과 지갑 주소를 입력하세요.</Title>
-      <InputLine>
-        <StyledInput
-          type="text"
-          placeholder="유저 이름을 입력하세요."
-          theme={theme}
-        />
-        <StyledInput
-          type="text"
-          placeholder="지갑 주소를 입력하세요."
-          theme={theme}
-        />
-      </InputLine>
-      <div
-        css={css`
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
-          gap: 80px;
-        `}
-      >
-        <StyledButton type="button" onClick={onPrev}>
-          이전
-        </StyledButton>
-        <StyledButton type="button" onClick={onNext}>
-          다음
-        </StyledButton>
-      </div>
-    </>
-  );
-};
-
-const StepThree = ({ onNext, onPrev }: StepProps) => {
-  const theme = useTheme();
-  const [deposit, setDeposit] = useState<number>(0);
-
-  const formatNumber = (value: number) =>
-    value.toLocaleString("ko-KR", { maximumFractionDigits: 2 });
-
-  const handleDepositInput = (value: string) => {
-    const raw = Number(value.replace(/,/g, ""));
-    setDeposit(isNaN(raw) ? 0 : raw / 10000); // 1 = 1만원
-  };
-
-  const exchangeRate = 1400.52 + 0.4;
-  return (
-    <>
-      <div
-        css={css`
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-        `}
-      >
-        <h3>{deposit === 0 ? "테더 시세" : "입금할 테더"}</h3>
-        <h3>
-          {deposit === 0
-            ? `${formatNumber(exchangeRate)} 원`
-            : `${formatNumber(deposit * 10000 * (exchangeRate / 1000))} 원`}
-        </h3>
-      </div>
-      <div
-        css={css`
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-        `}
-      >
-        <h3>입금 금액</h3>
-        <StyledInput
-          css={css`
-            text-align: right;
-          `}
-          placeholder="입금금액"
-          value={formatNumber(deposit * 10000)}
-          onChange={(e) => handleDepositInput(e.target.value)}
-          theme={theme}
-        />
-      </div>
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 10px;
-          margin-bottom: 20px;
-        `}
-      >
-        <div
-          css={css`
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-          `}
-        >
-          <Button
-            color="inherit"
-            sx={{ width: "90px" }}
-            variant="contained"
-            onClick={() => setDeposit((prev) => prev + 1)}
-          >
-            1만원
-          </Button>
-          <Button
-            color="inherit"
-            sx={{ width: "90px" }}
-            variant="contained"
-            onClick={() => setDeposit((prev) => prev + 5)}
-          >
-            5만원
-          </Button>
-          <Button
-            color="inherit"
-            sx={{ width: "90px" }}
-            variant="contained"
-            onClick={() => setDeposit((prev) => prev + 10)}
-          >
-            10만원
-          </Button>
-        </div>
-        <div
-          css={css`
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-          `}
-        >
-          <Button
-            color="inherit"
-            sx={{ width: "90px" }}
-            variant="contained"
-            onClick={() => setDeposit((prev) => prev + 30)}
-          >
-            30만원
-          </Button>
-          <Button
-            color="inherit"
-            sx={{ width: "90px" }}
-            variant="contained"
-            onClick={() => setDeposit((prev) => prev + 50)}
-          >
-            50만원
-          </Button>
-          <Button
-            color="inherit"
-            sx={{ width: "90px" }}
-            variant="contained"
-            onClick={() => setDeposit((prev) => prev + 100)}
-          >
-            100만원
-          </Button>
-        </div>
-        <div
-          css={css`
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-          `}
-        >
-          <Button
-            color="inherit"
-            sx={{ width: "90px" }}
-            variant="contained"
-            onClick={() => setDeposit((prev) => prev + 300)}
-          >
-            300만원
-          </Button>
-          <Button
-            color="inherit"
-            sx={{ width: "90px" }}
-            variant="contained"
-            onClick={() => setDeposit((prev) => prev + 500)}
-          >
-            500만원
-          </Button>
-          <Button
-            color="inherit"
-            sx={{ width: "90px" }}
-            variant="contained"
-            onClick={() => setDeposit(0)}
-          >
-            초기화
-          </Button>
-        </div>
-      </div>
-      <div
-        css={css`
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
-          gap: 80px;
-        `}
-      >
-        <StyledButton type="button" onClick={onPrev}>
-          이전
-        </StyledButton>
-        <StyledButton type="button" onClick={onNext}>
-          다음
-        </StyledButton>
-      </div>
-    </>
-  );
-};
-
-const StepFour = ({ onPrev }: StepProps) => {
-  const theme = useTheme();
-  return (
-    <>
-      <Title>입금 지갑 주소 확인</Title>
-      <InputLine>
-        <StyledInput
-          readOnly
-          value="Zxdsfqerrfxzv12asdasd"
-          type="text"
-          theme={theme}
-        />
-        <span>클릭해서 주소를 복사하세요.</span>
-      </InputLine>
-      <div
-        css={css`
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-        `}
-      >
-        <h3>신청 금액</h3>
-        <h3>100000</h3>
-      </div>
-      <div
-        css={css`
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
-          gap: 80px;
-        `}
-      >
-        <StyledButton type="button" onClick={onPrev}>
-          이전
-        </StyledButton>
-      </div>
-    </>
-  );
-};
+import { css } from "@emotion/react";
+import {
+  TetherCreateRequestType,
+  TetherDepositRequestType,
+} from "../../model/financial";
+import {
+  Consent,
+  DepositRequest,
+  InfoWriting,
+  WaitingForAccepted,
+} from "./Steps/Steps";
 
 export function InteractiveForm() {
   const [step, setStep] = useState(0);
 
-  const next = () => setStep((prev) => prev + 1);
+  const [info, setInfo] = useState<TetherCreateRequestType>({
+    username: "",
+    tetherWallet: "",
+  });
 
+  const [request, setRequest] = useState<TetherDepositRequestType>({
+    tetherWallet: "",
+    amount: 0,
+  });
+
+  const next = () => setStep((prev) => prev + 1);
   const prev = () => setStep((prev) => prev - 1);
+  const lastStep = () => setStep(steps.length - 1);
 
   const steps = [
     {
       title: "안내사항",
-      component: <StepOne onNext={next} />,
+      component: <Consent stepFunc={{ next, prev }} />,
     },
-    { title: "정보입력", component: <StepTwo onNext={next} onPrev={prev} /> },
+    {
+      title: "정보입력",
+      component: (
+        <InfoWriting
+          stepFunc={{ next, prev, lastStep }}
+          infoState={{
+            info,
+            setInfo,
+          }}
+        />
+      ),
+    },
     {
       title: "입금",
-      component: <StepThree onNext={next} onPrev={prev} />,
+      component: (
+        <DepositRequest
+          stepFunc={{ next, prev }}
+          infoState={{ info, setInfo }}
+          requestState={{
+            request,
+            setRequest,
+          }}
+        />
+      ),
     },
-    { title: "입금확인", component: <StepFour onPrev={prev} /> },
+    {
+      title: "입금확인",
+      component: (
+        <WaitingForAccepted
+          stepFunc={{ prev, step }}
+          infoState={{
+            info,
+            setInfo,
+          }}
+          requestState={{
+            request,
+            setRequest,
+          }}
+        />
+      ),
+    },
   ];
 
   return (
@@ -378,7 +135,6 @@ const Step = styled.div<{
   ({ active, left }) => css`
     position: absolute;
     top: 0;
-    -webkit-transform: translate(-50%);
     -ms-transform: translate(-50%);
     transform: translate(-50%);
     height: 25px;
@@ -438,7 +194,6 @@ const DotMove = styled.div<{ left: number }>(
     top: 50%;
     width: 15px;
     height: 15px;
-    -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     background: #ddd;
@@ -470,7 +225,6 @@ const Slider = styled.div<{ step: number; contentsLength: number }>(
     overflow: hidden;
     width: ${contentsLength * 400}px;
     -webkit-transition: 0.3s all ease;
-    -webkit-transform: translate(0px) scale(1);
     -ms-transform: translate(0px) scale(1);
 
     display: flex;
@@ -490,52 +244,9 @@ const SliderList = styled.div<{ active: boolean }>(
     flex-shrink: 0;
     transition: transform 0.3s ease;
     transform: scale(${active ? 1 : 0.5});
-  `,
-);
 
-const Title = styled.span`
-  font-size: 20px;
-  font-weight: bold;
-`;
-
-const StyledButton = styled.button`
-  display: inline-block;
-  text-decoration: none;
-  background: #5892fc;
-  border: none;
-  color: white;
-  padding: 10px 25px;
-  font-size: 1rem;
-  border-radius: 3px;
-  cursor: pointer;
-  font-family: "Nanum Gothic, Tofu", sans-serif;
-  position: relative;
-`;
-
-const InputLine = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: center;
-
-  gap: 30px;
-
-  width: 100%;
-
-  margin: 40px 0;
-`;
-
-const StyledInput = styled.input<{ theme: Theme }>(
-  ({ theme }) => css`
-    border: none;
-    font-size: 18px;
-    width: 300px;
-    height: 30px;
-    background-color: ${theme.mode.bodyBackground};
-
-    &:focus-visible {
-      outline: none;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   `,
 );
