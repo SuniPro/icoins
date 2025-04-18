@@ -190,7 +190,9 @@ export function DepositRequest(props: {
         <h3>
           {deposit === 0
             ? `${formatNumber(exchangeRate)} 원`
-            : `${formatNumber(formatNumber((deposit * 10000) / exchangeRate))} USDT`}
+            : `${formatNumber(
+                formatNumber((deposit * 10000) / exchangeRate),
+              )} USDT`}
         </h3>
       </HorizontalContainer>
       <HorizontalContainer justifyContent="space-between">
