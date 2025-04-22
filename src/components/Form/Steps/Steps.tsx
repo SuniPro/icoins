@@ -82,6 +82,11 @@ export function InfoWriting(props: {
   const theme = useTheme();
 
   const [searchParams] = useSearchParams();
+  const email = searchParams.get("email");
+
+  useEffect(() => {
+    setInfo((prev) => ({ ...prev, email: email ? email : "" }));
+  }, [email, setInfo]);
 
   const nextStep = () => {
     if (info.email === "") {
@@ -104,7 +109,6 @@ export function InfoWriting(props: {
     }
   };
 
-  const email = searchParams.get("email");
   return (
     <>
       <Title>이메일과 지갑 주소를 입력하세요.</Title>
@@ -116,7 +120,7 @@ export function InfoWriting(props: {
           onChange={(e) => {
             setInfo((prev) => ({
               ...prev,
-              email: email ? email : e.target.value,
+              email: e.target.value,
             }));
           }}
           theme={theme}
