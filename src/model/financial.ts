@@ -20,7 +20,7 @@ export interface TetherAccountAndDepositType {
 }
 
 export interface TetherCreateRequestType {
-  username: string;
+  email: string;
   tetherWallet: string;
 }
 
