@@ -84,7 +84,7 @@ export function InfoWriting(props: {
   const [searchParams] = useSearchParams();
 
   const nextStep = () => {
-    if (info.username === "") {
+    if (info.email === "") {
       ErrorAlert("이메일을 입력해주세요.");
     } else if (info.tetherWallet === "") {
       ErrorAlert("지갑의 주소를 입력해주세요.");
@@ -113,9 +113,12 @@ export function InfoWriting(props: {
           type="text"
           placeholder="이메일을 입력하세요."
           value={email !== null ? email : ""}
-          onChange={(e) =>
-            setInfo((prev) => ({ ...prev, username: e.target.value }))
-          }
+          onChange={(e) => {
+            setInfo((prev) => ({
+              ...prev,
+              email: email ? email : e.target.value,
+            }));
+          }}
           theme={theme}
         />
         <StyledInput

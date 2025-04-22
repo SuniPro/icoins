@@ -16,7 +16,7 @@ export function InteractiveForm() {
   const [step, setStep] = useState(0);
 
   const [info, setInfo] = useState<TetherCreateRequestType>({
-    username: "",
+    email: "",
     tetherWallet: "",
   });
 
