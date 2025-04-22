@@ -1,7 +1,7 @@
 export interface TetherAccountType {
   id: number;
   tetherWallet: string;
-  username: string;
+  email: string;
   insertDateTime: string;
   updateDateTime?: string;
   deleteDateTime?: string;
@@ -10,7 +10,7 @@ export interface TetherAccountType {
 export interface TetherAccountAndDepositType {
   id: number;
   tetherWallet: string;
-  username: string;
+  email: string;
   accepted: boolean | null;
   acceptedAt: string | null;
   requestedAt: string | null;
@@ -32,7 +32,7 @@ export interface TetherDepositRequestType {
 export interface TetherDepositType {
   id: number;
   tetherWallet: string;
-  username: string;
+  email: string;
   insertDateTime: string;
   amount: number;
   accepted: boolean;
