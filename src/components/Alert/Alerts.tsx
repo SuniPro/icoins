@@ -2,6 +2,12 @@ import toast from "react-hot-toast";
 import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 
+export function Alert(message: string) {
+  toast(message, {
+    duration: 6000,
+  });
+}
+
 export function ErrorAlert(message: string): void {
   toast.error(message);
 }

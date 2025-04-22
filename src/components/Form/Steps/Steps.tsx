@@ -18,6 +18,7 @@ import {
 } from "../../../api/financial";
 import { ErrorAlert, SuccessAlert } from "../../Alert/Alerts";
 import { Spinner } from "../../Empty/Spinner";
+import { useSearchParams } from "react-router-dom";
 
 interface StepProps {
   step?: number;
@@ -80,9 +81,11 @@ export function InfoWriting(props: {
   const { info, setInfo } = infoState;
   const theme = useTheme();
 
+  const [searchParams] = useSearchParams();
+
   const nextStep = () => {
     if (info.username === "") {
-      ErrorAlert("닉네임을 입력해주세요.");
+      ErrorAlert("이메일을 입력해주세요.");
     } else if (info.tetherWallet === "") {
       ErrorAlert("지갑의 주소를 입력해주세요.");
     } else if (!isValidTetherAddress(info.tetherWallet)) {
@@ -101,13 +104,15 @@ export function InfoWriting(props: {
     }
   };
 
+  const email = searchParams.get("email");
   return (
     <>
-      <Title>닉네임과 지갑 주소를 입력하세요.</Title>
+      <Title>이메일과 지갑 주소를 입력하세요.</Title>
       <InputLine>
         <StyledInput
           type="text"
-          placeholder="닉네임을 입력하세요."
+          placeholder="이메일을 입력하세요."
+          value={email !== null ? email : ""}
           onChange={(e) =>
             setInfo((prev) => ({ ...prev, username: e.target.value }))
           }
