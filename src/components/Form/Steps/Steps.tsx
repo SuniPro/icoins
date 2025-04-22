@@ -98,7 +98,7 @@ export function InfoWriting(props: {
     } else {
       createOrFindTetherAccount(info)
         .then((result) => {
-          SuccessAlert(`${result.username} 님 환영합니다.`);
+          SuccessAlert(`${result.email} 님 환영합니다.`);
           if (result.accepted !== null) {
             result.accepted ? next?.() : lastStep?.();
           } else {
