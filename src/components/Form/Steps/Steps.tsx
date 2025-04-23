@@ -175,11 +175,14 @@ export function DepositRequest(props: {
   });
 
   const exchangeRate = exchangeData ? exchangeData + 10 : 0;
-
   const handleDepositInput = (value: string) => {
     const raw = Number(value.replace(/,/g, ""));
-    setDeposit(isNaN(raw) ? 0 : raw / 10000); // 1 = 1만원
+    if (!isNaN(raw)) {
+      setDeposit(raw / 10000);
+    }
   };
+
+  const formattedDeposit = formatNumber(deposit * 10000);
 
   useEffect(() => {
     setRequest((prev) => ({
@@ -224,7 +227,7 @@ export function DepositRequest(props: {
           <StyledInput
             align="right"
             placeholder="입금금액"
-            defaultValue={formatNumber(deposit * 10000)}
+            value={formattedDeposit}
             onChange={(e) => handleDepositInput(e.target.value)}
             theme={theme}
           />
