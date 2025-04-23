@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
+import { css, Theme, useTheme } from "@emotion/react";
 import {
   TetherCreateRequestType,
   TetherDepositRequestType,
@@ -13,6 +13,8 @@ import {
 } from "./Steps/Steps";
 
 export function InteractiveForm() {
+  const theme = useTheme();
+
   const [step, setStep] = useState(0);
 
   const [info, setInfo] = useState<TetherCreateRequestType>({
@@ -88,7 +90,7 @@ export function InteractiveForm() {
               left={(index * 100) / (steps.length - 1)}
             >
               <Liner active={step >= index + 1} />
-              <StepLabel>{contents.title}</StepLabel>
+              <StepLabel theme={theme}>{contents.title}</StepLabel>
             </Step>
           ))}
         </Steps>
@@ -162,17 +164,19 @@ const Liner = styled.div<{ active: boolean }>`
   width: ${({ active }) => (active ? "100%" : "0%")};
 `;
 
-const StepLabel = styled.span`
-  position: relative;
-  z-index: 1; // liner 밑에 깔리는 것 방지
-  line-height: 25px;
-  height: 25px;
-  margin: 0;
-  color: #777;
-  font-family: "Roboto", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 300;
-`;
+const StepLabel = styled.span<{ theme: Theme }>(
+  ({ theme }) => css`
+    position: relative;
+    z-index: 1; // liner 밑에 깔리는 것 방지
+    line-height: 25px;
+    height: 25px;
+    margin: 0;
+    color: ${theme.mode.textSecondary};
+    font-family: "Roboto", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+  `,
+);
 
 const Dot = styled.div<{ isActive: boolean; left: number }>(
   ({ isActive, left }) => css`
