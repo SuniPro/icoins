@@ -155,7 +155,7 @@ const defaultMode = {
 
   // 텍스트
   textPrimary: colors.black,
-  textSecondary: colors.ashGray,
+  textSecondary: colors.graniteGray,
   textAccent: colors.azure, // ✅ 여기
   textDisable: colors.steelGray,
 
