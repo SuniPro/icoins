@@ -155,7 +155,7 @@ const defaultMode = {
 
   // 텍스트
   textPrimary: colors.black,
-  textSecondary: colors.ashGray,
+  textSecondary: colors.graniteGray,
   textAccent: colors.azure, // ✅ 여기
   textDisable: colors.steelGray,
 
@@ -235,13 +235,13 @@ const defaultMode = {
 };
 
 const darkMode = {
-  bodyBackground: colors.darkCharcoal,
+  bodyBackground: colors.midnightBlack,
   contentBackground: colors.black,
   cardBackground: colors.black,
 
   // 텍스트
-  textPrimary: colors.black,
-  textSecondary: colors.graniteGray,
+  textPrimary: colors.white,
+  textSecondary: colors.lotion,
   textAccent: colors.azure, // ✅ 여기
   textDisable: colors.steelGray,
 

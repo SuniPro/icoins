@@ -182,24 +182,24 @@ export function DepositRequest(props: {
   const handleDepositInput = (value: string) => {
     const raw = Number(value.replace(/,/g, ""));
     if (!isNaN(raw)) {
-      setDeposit(raw / 10000);
+      setDeposit(raw);
     }
   };
 
-  const formattedDeposit = formatNumber(deposit * 10000);
+  const formattedDeposit = formatNumber(deposit);
 
   useEffect(() => {
     setRequest((prev) => ({
       ...prev,
       tetherWallet: info.tetherWallet,
-      amount: formatNumber(deposit * 10000),
+      amount: formatNumber(deposit),
     }));
   }, [deposit, exchangeRate, info.tetherWallet, setRequest]);
 
   const nextStep = () => {
     if (exchangeRate === 0) {
       ErrorAlert(`환율정보를 받아오지 못했습니다 잠시후 다시 시도해주세요.`);
-    } else if (deposit > 10000) {
+    } else if (deposit < 10000) {
       ErrorAlert("최소 만원 이상을 입력해주세요.");
     } else if (!isValidTetherAddress(info.tetherWallet)) {
       ErrorAlert("유효하지 않은 지갑 주소입니다.");
@@ -220,9 +220,7 @@ export function DepositRequest(props: {
         <h3>
           {deposit === 0
             ? `${formatNumber(exchangeRate)} 원`
-            : `${formatNumber(
-                formatNumber((deposit * 10000) / exchangeRate),
-              )} USDT`}
+            : `${formatNumber(formatNumber(deposit / exchangeRate))} USDT`}
         </h3>
       </HorizontalContainer>
       <HorizontalContainer justifyContent="space-between">
@@ -247,19 +245,19 @@ export function DepositRequest(props: {
         <HorizontalContainer justifyContent="space-between" gap={10}>
           <CostButton
             theme={theme}
-            onClick={() => setDeposit((prev) => prev + 1)}
+            onClick={() => setDeposit((prev) => prev + 10000)}
           >
             1만원
           </CostButton>
           <CostButton
             theme={theme}
-            onClick={() => setDeposit((prev) => prev + 5)}
+            onClick={() => setDeposit((prev) => prev + 50000)}
           >
             5만원
           </CostButton>
           <CostButton
             theme={theme}
-            onClick={() => setDeposit((prev) => prev + 10)}
+            onClick={() => setDeposit((prev) => prev + 100000)}
           >
             10만원
           </CostButton>
@@ -267,19 +265,19 @@ export function DepositRequest(props: {
         <HorizontalContainer justifyContent="space-between" gap={10}>
           <CostButton
             theme={theme}
-            onClick={() => setDeposit((prev) => prev + 30)}
+            onClick={() => setDeposit((prev) => prev + 300000)}
           >
             30만원
           </CostButton>
           <CostButton
             theme={theme}
-            onClick={() => setDeposit((prev) => prev + 50)}
+            onClick={() => setDeposit((prev) => prev + 500000)}
           >
             50만원
           </CostButton>
           <CostButton
             theme={theme}
-            onClick={() => setDeposit((prev) => prev + 100)}
+            onClick={() => setDeposit((prev) => prev + 1000000)}
           >
             100만원
           </CostButton>
@@ -287,13 +285,13 @@ export function DepositRequest(props: {
         <HorizontalContainer justifyContent="space-between" gap={10}>
           <CostButton
             theme={theme}
-            onClick={() => setDeposit((prev) => prev + 300)}
+            onClick={() => setDeposit((prev) => prev + 3000000)}
           >
             300만원
           </CostButton>
           <CostButton
             theme={theme}
-            onClick={() => setDeposit((prev) => prev + 500)}
+            onClick={() => setDeposit((prev) => prev + 5000000)}
           >
             500만원
           </CostButton>
@@ -501,7 +499,6 @@ const CostButton = styled(Button)<{ theme: Theme }>(
   ({ theme }) => css`
     background-color: ${theme.mode.cardBackground};
     color: ${theme.mode.textPrimary};
-    //box-shadow: none;
     width: 90px;
   `,
 );
