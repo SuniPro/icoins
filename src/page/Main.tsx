@@ -33,6 +33,7 @@ export function Main() {
         <SubjectTitle theme={theme} fontSize={20}>
           <LogoText fontSize={28} /> 의 이용방법을 모르신다면,&nbsp;
           <a
+            href={import.meta.env.VITE_TELEGRAM_URL}
             css={css`
               font-size: 20px;
               cursor: pointer;
