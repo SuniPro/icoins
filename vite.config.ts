@@ -15,7 +15,7 @@ export default defineConfig({
     port: 5020,
     proxy: {
       "/user": {
-        target: "http://172.31.7.29:8020",
+        target: "http://localhost:8020",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/user/, ""),
         secure: false,

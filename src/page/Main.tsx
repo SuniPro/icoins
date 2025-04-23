@@ -2,8 +2,19 @@
 import styled from "@emotion/styled";
 import { ContentsContainer } from "../components/layouts/Layouts";
 import { Logo, LogoContainer, LogoText } from "../components/Logo/Logo";
-import { css, Theme, useTheme } from "@emotion/react";
+import { css, keyframes, Theme, useTheme } from "@emotion/react";
 import { InteractiveForm } from "../components/Form/InteractiveForm";
+
+const fadeUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export function Main() {
   const theme = useTheme();
@@ -15,19 +26,7 @@ export function Main() {
           오직 당신을 위한 프라이빗 안전거래 시스템
         </SubjectTitle>
       </LogoContainer>
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-
-          justify-content: center;
-          align-items: center;
-          margin-top: 40px;
-          margin-bottom: 50px;
-
-          gap: 10px;
-        `}
-      >
+      <GuideLine>
         <SubjectTitle theme={theme} fontSize={20}>
           업비트와 빗썸은 필수입니다.
         </SubjectTitle>
@@ -37,15 +36,17 @@ export function Main() {
             css={css`
               font-size: 20px;
               cursor: pointer;
+              padding: 0;
+              margin: 0;
             `}
           >
             여기를 클릭하세요.
           </a>
         </SubjectTitle>
-      </div>
-      <ContentsContainer>
+      </GuideLine>
+      <StyledContentsContainer>
         <InteractiveForm />
-      </ContentsContainer>
+      </StyledContentsContainer>
     </MainContainer>
   );
 }
@@ -73,4 +74,24 @@ const MainContainer = styled.main`
       margin: 0 0 10px;
     }
   }
+`;
+
+const GuideLine = styled.div`
+  animation: ${fadeUp} 0.4s ease-in-out;
+  animation-fill-mode: both;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 50px;
+
+  gap: 10px;
+`;
+
+const StyledContentsContainer = styled(ContentsContainer)`
+  animation: ${fadeUp} 0.7s ease-in-out;
+  animation-fill-mode: both;
 `;
