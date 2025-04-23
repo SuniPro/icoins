@@ -15,6 +15,12 @@ import {
 import axios from "axios";
 import { ErrorAlert } from "../components/Alert/Alerts";
 
+export async function getExchangeInfo(): Promise<number> {
+  const response = await getFromUserServer("/financial/exchange");
+
+  return response.data;
+}
+
 export async function createOrFindTetherAccount(
   tetherCreateRequest: TetherCreateRequestType,
 ): Promise<TetherAccountAndDepositType> {
