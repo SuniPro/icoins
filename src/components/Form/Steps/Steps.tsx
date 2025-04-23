@@ -186,10 +186,6 @@ export function DepositRequest(props: {
     }
   };
 
-  useEffect(() => {
-    console.log(deposit);
-  }, [deposit]);
-
   const formattedDeposit = formatNumber(deposit);
 
   useEffect(() => {
