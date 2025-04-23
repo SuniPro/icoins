@@ -174,7 +174,11 @@ export function DepositRequest(props: {
     refetchInterval: 300000,
   });
 
-  const exchangeRate = exchangeData ? exchangeData + 10 : 0;
+  const payback = import.meta.env.VITE_USDT_PAYBACK;
+
+  const exchangeRate = exchangeData
+    ? exchangeData + parseInt(payback.toString())
+    : 0;
   const handleDepositInput = (value: string) => {
     const raw = Number(value.replace(/,/g, ""));
     if (!isNaN(raw)) {
