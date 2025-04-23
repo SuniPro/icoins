@@ -13,8 +13,8 @@ import { useQuery } from "@tanstack/react-query";
 import {
   createOrFindTetherAccount,
   depositRequest,
+  getExchangeInfo,
   getLatestDepositByWallet,
-  getUsdToKrwRate,
 } from "../../../api/financial";
 import { ErrorAlert, SuccessAlert } from "../../Alert/Alerts";
 import { Spinner } from "../../Empty/Spinner";
@@ -169,17 +169,20 @@ export function DepositRequest(props: {
   const theme = useTheme();
   const [deposit, setDeposit] = useState<number>(0);
   const { data: exchangeData } = useQuery({
-    queryKey: ["getUsdToKrwRate"],
-    queryFn: () => getUsdToKrwRate(),
+    queryKey: ["getExchangeInfo"],
+    queryFn: () => getExchangeInfo(),
     refetchInterval: 300000,
   });
 
-  const exchangeRate = exchangeData ? exchangeData.rates.KRW + 0.4 : 0;
-
+  const exchangeRate = exchangeData ? exchangeData + 10 : 0;
   const handleDepositInput = (value: string) => {
     const raw = Number(value.replace(/,/g, ""));
-    setDeposit(isNaN(raw) ? 0 : raw / 10000); // 1 = 1만원
+    if (!isNaN(raw)) {
+      setDeposit(raw / 10000);
+    }
   };
+
+  const formattedDeposit = formatNumber(deposit * 10000);
 
   useEffect(() => {
     setRequest((prev) => ({
@@ -224,7 +227,7 @@ export function DepositRequest(props: {
           <StyledInput
             align="right"
             placeholder="입금금액"
-            value={formatNumber(deposit * 10000)}
+            value={formattedDeposit}
             onChange={(e) => handleDepositInput(e.target.value)}
             theme={theme}
           />
