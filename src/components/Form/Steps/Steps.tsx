@@ -19,6 +19,7 @@ import {
 import { ErrorAlert, SuccessAlert } from "../../Alert/Alerts";
 import { Spinner } from "../../Empty/Spinner";
 import { useSearchParams } from "react-router-dom";
+import { iso8601ToYYMMDDHHMM } from "../../styled/Date/DateFomatter";
 
 interface StepProps {
   step?: number;
@@ -81,6 +82,7 @@ export function InfoWriting(props: {
   const { info, setInfo } = infoState;
   const theme = useTheme();
 
+  const [loading, setLoading] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
 
@@ -96,18 +98,27 @@ export function InfoWriting(props: {
     } else if (!isValidTetherAddress(info.tetherWallet)) {
       ErrorAlert("유효하지 않은 지갑 주소입니다.");
     } else {
+      setLoading(true);
       createOrFindTetherAccount(info)
         .then((result) => {
-          SuccessAlert(`${result.email} 님 환영합니다.`);
+          setLoading(false);
+          SuccessAlert(`${result.email.split("@")[0]} 님 환영합니다.`);
           if (result.accepted !== null) {
             result.accepted ? next?.() : lastStep?.();
           } else {
             next?.();
           }
         })
-        .catch((err) => ErrorAlert(err.message));
+        .catch((err) => {
+          setLoading(false);
+          ErrorAlert(err.message);
+        });
     }
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <>
@@ -116,7 +127,7 @@ export function InfoWriting(props: {
         <StyledInput
           type="text"
           placeholder="이메일을 입력하세요."
-          value={email !== null ? email : ""}
+          defaultValue={email !== null ? email : ""}
           onChange={(e) => {
             setInfo((prev) => ({
               ...prev,
@@ -344,10 +355,11 @@ export function WaitingForAccepted(props: {
         <StyledInput
           align="center"
           readOnly
-          value="Zxdsfqerrfxzv12asdasd"
+          value={import.meta.env.VITE_ACCOUNT_NUMBER}
           type="text"
           css={css`
-            font-size: 24px;
+            width: 500px;
+            font-size: 18px;
             font-weight: bold;
             color: ${theme.mode.highlight};
           `}
@@ -385,7 +397,7 @@ export function WaitingForAccepted(props: {
         </HorizontalContainer>
         <HorizontalContainer fontSize={16} justifyContent="space-between">
           <span>요청일시</span>
-          <span>{depositRecord.requestedAt}</span>
+          <span>{iso8601ToYYMMDDHHMM(depositRecord.requestedAt)}</span>
         </HorizontalContainer>
         {isPending ? (
           <HorizontalContainer justifyContent="space-between">
@@ -395,7 +407,7 @@ export function WaitingForAccepted(props: {
         ) : (
           <HorizontalContainer fontSize={16} justifyContent="space-between">
             <span>승인일시</span>
-            <span>{depositRecord.acceptedAt}</span>
+            <span>{iso8601ToYYMMDDHHMM(depositRecord.acceptedAt)}</span>
           </HorizontalContainer>
         )}
       </VerticalContainer>
@@ -431,13 +443,13 @@ const ButtonLine = styled.div`
   gap: 80px;
 `;
 
-const StyledButton = styled.button`
+const StyledButton = styled(Button)`
   display: inline-block;
   text-decoration: none;
   background: #5892fc;
   border: none;
   color: white;
-  padding: 10px 25px;
+  padding: 5px 25px;
   font-size: 1rem;
   border-radius: 3px;
   cursor: pointer;
