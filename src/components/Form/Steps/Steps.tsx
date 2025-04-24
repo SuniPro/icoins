@@ -267,7 +267,7 @@ export function DepositRequest(props: {
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
           `}
         >
@@ -289,7 +289,7 @@ export function DepositRequest(props: {
           <span
             css={css`
               height: 30px;
-              transform: translateY(1px);
+              transform: translateY(1%);
             `}
           >
             원
