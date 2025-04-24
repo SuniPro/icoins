@@ -67,13 +67,9 @@ export function Consent(props: { stepFunc: StepProps }) {
 const formatNumber = (value: number): number => parseFloat(value.toFixed(2));
 
 const isValidTetherAddress = (address: string): boolean => {
-  const ethRegex = /^0x[a-fA-F0-9]{40}$/; // ERC-20, BEP-20
   const tronRegex = /^T[a-zA-Z0-9]{33}$/; // TRC-20
-  const omniRegex = /^(1|3|bc1)[a-zA-Z0-9]{25,39}$/; // Omni (Bitcoin 기반 주소)
 
-  return (
-    ethRegex.test(address) || tronRegex.test(address) || omniRegex.test(address)
-  );
+  return tronRegex.test(address);
 };
 
 export function InfoWriting(props: {
@@ -214,7 +210,7 @@ export function DepositRequest(props: {
     } else if (deposit < 10000) {
       ErrorAlert("최소 만원 이상을 입력해주세요.");
     } else if (!isValidTetherAddress(info.tetherWallet)) {
-      ErrorAlert("유효하지 않은 지갑 주소입니다.");
+      ErrorAlert("테더 지갑만 가능합니다.");
     } else {
       depositRequest(request)
         .then((result) =>
@@ -257,6 +253,7 @@ export function DepositRequest(props: {
         <h3
           css={css`
             font-size: 18px;
+            white-space: nowrap;
 
             @media ${theme.deviceSize.phone} {
               font-size: 14px;
@@ -265,7 +262,15 @@ export function DepositRequest(props: {
         >
           입금 금액
         </h3>
-        <div>
+        <div
+          css={css`
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+          `}
+        >
           <StyledInput
             css={css`
               font-size: 18px;
@@ -281,7 +286,14 @@ export function DepositRequest(props: {
             onChange={(e) => handleDepositInput(e.target.value)}
             theme={theme}
           />
-          <span>원</span>
+          <span
+            css={css`
+              height: 30px;
+              transform: translateY(1px);
+            `}
+          >
+            원
+          </span>
         </div>
       </HorizontalContainer>
       <VerticalContainer
