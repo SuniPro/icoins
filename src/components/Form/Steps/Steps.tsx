@@ -15,6 +15,7 @@ import {
   depositRequest,
   getExchangeInfo,
   getLatestDepositByWallet,
+  getTetherAccountByEmail,
 } from "../../../api/financial";
 import { ErrorAlert, SuccessAlert } from "../../Alert/Alerts";
 import { Spinner } from "../../Empty/Spinner";
@@ -22,6 +23,7 @@ import { useSearchParams } from "react-router-dom";
 import { iso8601ToYYMMDDHHMM } from "../../styled/Date/DateFomatter";
 import { useWindowContext } from "../../../context/WindowContext";
 import { useProportionHook } from "../../../hooks/useWindowHooks";
+import { useDebounceHandler } from "../../../hooks/useDebounceHandler";
 
 interface StepProps {
   step?: number;
@@ -80,10 +82,44 @@ export function InfoWriting(props: {
   const { next, prev, lastStep } = stepFunc;
   const { info, setInfo } = infoState;
   const theme = useTheme();
+  const [emailInputValue, setEmailInputValue] = useState<string>("");
+  const [debouncedEmail, setDebouncedEmail] = useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
+
+  const { changeHandle } = useDebounceHandler(setEmailInputValue);
+
+  useEffect(() => {
+    if (email) {
+      setEmailInputValue(email); // input 상태
+      setDebouncedEmail(email); // debounce 상태도 직접 반영
+    }
+  }, [email]);
+
+  useEffect(() => {
+    if (email) return; // 쿼리에서 온 경우는 무시하고 초기 useEffect에서 처리
+    const handler = setTimeout(() => {
+      setDebouncedEmail(emailInputValue);
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [emailInputValue, email]);
+
+  useEffect(() => {
+    if (!debouncedEmail) return;
+
+    getTetherAccountByEmail(debouncedEmail)
+      .then((r) => {
+        setInfo((prev) => ({
+          ...prev,
+          tetherWallet: r.tetherWallet,
+        }));
+        SuccessAlert("지갑을 찾았습니다.");
+      })
+      .catch((e) => ErrorAlert(e.message));
+  }, [debouncedEmail, setInfo, email]);
 
   const { windowWidth } = useWindowContext();
   const inputMargin = useProportionHook(
@@ -115,9 +151,9 @@ export function InfoWriting(props: {
             next?.();
           }
         })
-        .catch((err) => {
+        .catch((e) => {
           setLoading(false);
-          ErrorAlert(err.message);
+          ErrorAlert(e.message);
         });
     }
   };
@@ -131,24 +167,24 @@ export function InfoWriting(props: {
       <Title>이메일과 지갑 주소를 입력하세요.</Title>
       <InputLine margin={inputMargin.size}>
         <StyledInput
-          type="text"
+          type="email"
           placeholder="이메일을 입력하세요."
-          defaultValue={email ? email : info.email}
+          value={info.email}
           onChange={(e) => {
-            setInfo((prev) => ({
-              ...prev,
-              email: e.target.value,
-            }));
+            const value = e.target.value;
+            changeHandle(e);
+            setEmailInputValue(value);
+            setInfo((prev) => ({ ...prev, email: value }));
           }}
           theme={theme}
         />
         <StyledInput
           type="text"
           placeholder="지갑 주소를 입력하세요."
-          defaultValue={info.tetherWallet}
-          onChange={(e) =>
-            setInfo((prev) => ({ ...prev, tetherWallet: e.target.value }))
-          }
+          value={info.tetherWallet}
+          onChange={(e) => {
+            setInfo((prev) => ({ ...prev, tetherWallet: e.target.value }));
+          }}
           theme={theme}
         />
       </InputLine>

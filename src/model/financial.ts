@@ -2,6 +2,7 @@ export interface TetherAccountType {
   id: number;
   tetherWallet: string;
   email: string;
+  virtualWallet: string;
   insertDateTime: string;
   updateDateTime?: string;
   deleteDateTime?: string;

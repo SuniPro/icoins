@@ -21,6 +21,15 @@ export async function getExchangeInfo(): Promise<number> {
   return response.data;
 }
 
+export async function getTetherAccountByEmail(
+  email: string,
+): Promise<TetherAccountType> {
+  const response = await getFromUserServer(
+    `/financial/tether/get/account/by/email/${email}`,
+  );
+  return response.data;
+}
+
 export async function createOrFindTetherAccount(
   tetherCreateRequest: TetherCreateRequestType,
 ): Promise<TetherAccountAndDepositType> {
