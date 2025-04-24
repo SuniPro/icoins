@@ -64,7 +64,7 @@ export function Consent(props: { stepFunc: StepProps }) {
   );
 }
 
-const formatNumber = (value: number): number => parseFloat(value.toFixed(2));
+const formatFloat = (value: number): number => parseFloat(value.toFixed(2));
 
 const isValidTetherAddress = (address: string): boolean => {
   const tronRegex = /^T[a-zA-Z0-9]{33}$/; // TRC-20
@@ -194,13 +194,14 @@ export function DepositRequest(props: {
     }
   };
 
-  const formattedDeposit = formatNumber(deposit);
+  const formattedDeposit = formatFloat(deposit);
 
   useEffect(() => {
     setRequest((prev) => ({
       ...prev,
       tetherWallet: info.tetherWallet,
-      amount: formatNumber(deposit),
+      amount: formatFloat(deposit),
+      usdtAmount: formatFloat(deposit / exchangeRate),
     }));
   }, [deposit, exchangeRate, info.tetherWallet, setRequest]);
 
@@ -245,8 +246,8 @@ export function DepositRequest(props: {
           `}
         >
           {deposit === 0
-            ? `${formatNumber(exchangeRate)} 원`
-            : `${formatNumber(formatNumber(deposit / exchangeRate))} USDT`}
+            ? `${formatFloat(exchangeRate)} 원`
+            : `${formatFloat(deposit / exchangeRate)} USDT`}
         </h3>
       </HorizontalContainer>
       <HorizontalContainer justifyContent="space-between">
@@ -467,6 +468,10 @@ export function WaitingForAccepted(props: {
         <HorizontalContainer fontSize={16} justifyContent="space-between">
           <ResultInfo theme={theme}>신청금액</ResultInfo>
           <ResultInfo theme={theme}>{depositRecord.amount} 원</ResultInfo>
+        </HorizontalContainer>
+        <HorizontalContainer fontSize={16} justifyContent="space-between">
+          <ResultInfo theme={theme}>입금예정 테더</ResultInfo>
+          <ResultInfo theme={theme}>{depositRecord.usdtAmount} USDT</ResultInfo>
         </HorizontalContainer>
         <HorizontalContainer fontSize={16} justifyContent="space-between">
           <ResultInfo theme={theme}>요청일시</ResultInfo>
