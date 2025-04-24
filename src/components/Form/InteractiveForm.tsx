@@ -11,8 +11,10 @@ import {
   InfoWriting,
   WaitingForAccepted,
 } from "./Steps/Steps";
+import { useProportionHook } from "../../hooks/useWindowHooks";
 
-export function InteractiveForm() {
+export function InteractiveForm(props: { windowWidth: number }) {
+  const { windowWidth } = props;
   const theme = useTheme();
 
   const [step, setStep] = useState(0);
@@ -26,6 +28,13 @@ export function InteractiveForm() {
     tetherWallet: "",
     amount: 0,
   });
+
+  const { size } = useProportionHook(
+    windowWidth,
+    theme.windowSize.mobile - 100,
+    theme.windowSize.mobile,
+  );
+  const stepWidth = useProportionHook(windowWidth, 80, theme.windowSize.mobile);
 
   const next = () => setStep((prev) => prev + 1);
   const prev = () => setStep((prev) => prev - 1);
@@ -81,13 +90,14 @@ export function InteractiveForm() {
 
   return (
     <>
-      <Container>
+      <Container width={size}>
         <Steps>
           {steps.map((contents, index) => (
             <Step
               key={index}
               active={step === index}
               left={(index * 100) / (steps.length - 1)}
+              width={stepWidth.size}
             >
               <Liner active={step >= index + 1} />
               <StepLabel theme={theme}>{contents.title}</StepLabel>
@@ -105,9 +115,9 @@ export function InteractiveForm() {
           ))}
         </Line>
         <SliderContainer>
-          <Slider contentsLength={steps.length} step={step}>
+          <Slider contentsLength={steps.length} step={step} width={size}>
             {steps.map((contents, index) => (
-              <SliderList key={index} active={step === index}>
+              <SliderList key={index} active={step === index} width={size}>
                 {contents.component}
               </SliderList>
             ))}
@@ -118,11 +128,13 @@ export function InteractiveForm() {
   );
 }
 
-const Container = styled.div`
-  position: relative;
-  transition: all 0.5s ease;
-  width: 400px;
-`;
+const Container = styled.div<{ width: number }>(
+  ({ width }) => css`
+    position: relative;
+    transition: all 0.5s ease;
+    width: ${width}px;
+  `,
+);
 
 const Steps = styled.div`
   margin-bottom: 10px;
@@ -133,6 +145,7 @@ const Steps = styled.div`
 const Step = styled.div<{
   active: boolean;
   left: number;
+  width: number;
 }>(
   ({ active, left }) => css`
     position: absolute;
@@ -224,25 +237,29 @@ const SliderContainer = styled.div`
   overflow: hidden;
 `;
 
-const Slider = styled.div<{ step: number; contentsLength: number }>(
-  ({ step, contentsLength }) => css`
+const Slider = styled.div<{
+  step: number;
+  contentsLength: number;
+  width: number;
+}>(
+  ({ step, contentsLength, width }) => css`
     overflow: hidden;
-    width: ${contentsLength * 400}px;
+    width: ${contentsLength * width}px;
     -webkit-transition: 0.3s all ease;
     -ms-transform: translate(0px) scale(1);
 
     display: flex;
     transition: transform 0.3s ease;
-    transform: ${`translateX(-${step * 400}px)`};
+    transform: ${`translateX(-${step * width}px)`};
   `,
 );
 
-const SliderList = styled.div<{ active: boolean }>(
-  ({ active }) => css`
+const SliderList = styled.div<{ active: boolean; width: number }>(
+  ({ active, width }) => css`
     -webkit-transition: 0.3s all ease;
 
     float: left;
-    width: 400px;
+    width: ${width}px;
     text-align: center;
 
     flex-shrink: 0;

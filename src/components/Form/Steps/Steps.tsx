@@ -20,6 +20,8 @@ import { ErrorAlert, SuccessAlert } from "../../Alert/Alerts";
 import { Spinner } from "../../Empty/Spinner";
 import { useSearchParams } from "react-router-dom";
 import { iso8601ToYYMMDDHHMM } from "../../styled/Date/DateFomatter";
+import { useWindowContext } from "../../../context/WindowContext";
+import { useProportionHook } from "../../../hooks/useWindowHooks";
 
 interface StepProps {
   step?: number;
@@ -40,10 +42,11 @@ interface depositRequestStateType {
 
 export function Consent(props: { stepFunc: StepProps }) {
   const { next } = props.stepFunc;
+  const theme = useTheme();
 
   return (
     <>
-      <VerticalContainer>
+      <VerticalContainer theme={theme}>
         <Title>입금 전 안내사항</Title>
         <ul>
           <li>반드시 본인의 지갑주소를 정확히 입력하세요.</li>
@@ -52,7 +55,7 @@ export function Consent(props: { stepFunc: StepProps }) {
         </ul>
       </VerticalContainer>
 
-      <ButtonLine>
+      <ButtonLine theme={theme}>
         <StyledButton type="button" onClick={next}>
           동의
         </StyledButton>
@@ -85,6 +88,13 @@ export function InfoWriting(props: {
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
+
+  const { windowWidth } = useWindowContext();
+  const inputMargin = useProportionHook(
+    windowWidth,
+    60,
+    theme.windowSize.tablet,
+  );
 
   useEffect(() => {
     setInfo((prev) => ({ ...prev, email: email ? email : "" }));
@@ -123,11 +133,11 @@ export function InfoWriting(props: {
   return (
     <>
       <Title>이메일과 지갑 주소를 입력하세요.</Title>
-      <InputLine>
+      <InputLine margin={inputMargin.size}>
         <StyledInput
           type="text"
           placeholder="이메일을 입력하세요."
-          defaultValue={email !== null ? email : ""}
+          defaultValue={email ? email : info.email}
           onChange={(e) => {
             setInfo((prev) => ({
               ...prev,
@@ -139,13 +149,14 @@ export function InfoWriting(props: {
         <StyledInput
           type="text"
           placeholder="지갑 주소를 입력하세요."
+          defaultValue={info.tetherWallet}
           onChange={(e) =>
             setInfo((prev) => ({ ...prev, tetherWallet: e.target.value }))
           }
           theme={theme}
         />
       </InputLine>
-      <ButtonLine>
+      <ButtonLine theme={theme}>
         <StyledButton type="button" onClick={prev}>
           이전
         </StyledButton>
@@ -174,6 +185,7 @@ export function DepositRequest(props: {
     refetchInterval: 300000,
   });
 
+  // const { windowWidth } = useWindowContext();
   const payback = import.meta.env.VITE_USDT_PAYBACK;
 
   const exchangeRate = exchangeData
@@ -216,17 +228,53 @@ export function DepositRequest(props: {
   return (
     <>
       <HorizontalContainer justifyContent="space-between">
-        <h3>{deposit === 0 ? "테더 시세" : "입금되는 테더"}</h3>
-        <h3>
+        <h3
+          css={css`
+            font-size: 18px;
+
+            @media ${theme.deviceSize.phone} {
+              font-size: 14px;
+            }
+          `}
+        >
+          {deposit === 0 ? "테더 시세" : "입금되는 테더"}
+        </h3>
+        <h3
+          css={css`
+            font-size: 18px;
+
+            @media ${theme.deviceSize.phone} {
+              font-size: 14px;
+            }
+          `}
+        >
           {deposit === 0
             ? `${formatNumber(exchangeRate)} 원`
             : `${formatNumber(formatNumber(deposit / exchangeRate))} USDT`}
         </h3>
       </HorizontalContainer>
       <HorizontalContainer justifyContent="space-between">
-        <h3>입금 금액</h3>
+        <h3
+          css={css`
+            font-size: 18px;
+
+            @media ${theme.deviceSize.phone} {
+              font-size: 14px;
+            }
+          `}
+        >
+          입금 금액
+        </h3>
         <div>
           <StyledInput
+            css={css`
+              font-size: 18px;
+
+              @media ${theme.deviceSize.phone} {
+                font-size: 14px;
+                width: 200px;
+              }
+            `}
             align="right"
             placeholder="입금금액"
             value={formattedDeposit}
@@ -238,9 +286,15 @@ export function DepositRequest(props: {
       </HorizontalContainer>
       <VerticalContainer
         css={css`
+          width: 300px;
           gap: 10px;
           margin: 20px 0 50px;
+
+          @media ${theme.deviceSize.phone} {
+            margin: 10px 0 20px;
+          }
         `}
+        theme={theme}
       >
         <HorizontalContainer justifyContent="space-between" gap={10}>
           <CostButton
@@ -300,7 +354,7 @@ export function DepositRequest(props: {
           </CostButton>
         </HorizontalContainer>
       </VerticalContainer>
-      <ButtonLine>
+      <ButtonLine theme={theme}>
         <StyledButton type="button" onClick={prev}>
           이전
         </StyledButton>
@@ -356,6 +410,7 @@ export function WaitingForAccepted(props: {
         css={css`
           margin: 20px 0;
         `}
+        theme={theme}
       >
         <StyledInput
           align="center"
@@ -388,6 +443,7 @@ export function WaitingForAccepted(props: {
           width: 80%;
           margin-bottom: 20px;
         `}
+        theme={theme}
       >
         <h3
           css={css`
@@ -397,22 +453,26 @@ export function WaitingForAccepted(props: {
           신청 결과
         </h3>
         <HorizontalContainer fontSize={16} justifyContent="space-between">
-          <span>신청금액</span>
-          <span>{depositRecord.amount} 원</span>
+          <ResultInfo theme={theme}>신청금액</ResultInfo>
+          <ResultInfo theme={theme}>{depositRecord.amount} 원</ResultInfo>
         </HorizontalContainer>
         <HorizontalContainer fontSize={16} justifyContent="space-between">
-          <span>요청일시</span>
-          <span>{iso8601ToYYMMDDHHMM(depositRecord.requestedAt)}</span>
+          <ResultInfo theme={theme}>요청일시</ResultInfo>
+          <ResultInfo theme={theme}>
+            {iso8601ToYYMMDDHHMM(depositRecord.requestedAt)}
+          </ResultInfo>
         </HorizontalContainer>
         {isPending ? (
           <HorizontalContainer justifyContent="space-between">
-            <span>승인일시</span>
-            <span>대기중</span>
+            <ResultInfo theme={theme}>승인일시</ResultInfo>
+            <ResultInfo theme={theme}>대기중</ResultInfo>
           </HorizontalContainer>
         ) : (
           <HorizontalContainer fontSize={16} justifyContent="space-between">
-            <span>승인일시</span>
-            <span>{iso8601ToYYMMDDHHMM(depositRecord.acceptedAt)}</span>
+            <ResultInfo theme={theme}>승인일시</ResultInfo>
+            <ResultInfo theme={theme}>
+              {iso8601ToYYMMDDHHMM(depositRecord.acceptedAt)}
+            </ResultInfo>
           </HorizontalContainer>
         )}
       </VerticalContainer>
@@ -438,15 +498,21 @@ const Title = styled.span`
   font-weight: bold;
 `;
 
-const ButtonLine = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-  gap: 80px;
-`;
+const ButtonLine = styled.div<{ theme: Theme }>(
+  ({ theme }) => css`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 80px;
+
+    @media ${theme.deviceSize.phone} {
+      margin-top: 4px;
+    }
+  `,
+);
 
 const StyledButton = styled(Button)`
   display: inline-block;
@@ -462,19 +528,21 @@ const StyledButton = styled(Button)`
   position: relative;
 `;
 
-const InputLine = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: center;
+const InputLine = styled.div<{ margin: number }>(
+  ({ margin }) => css`
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
 
-  gap: 30px;
+    gap: 30px;
 
-  width: 100%;
+    width: 100%;
 
-  margin: 60px 0;
-`;
+    margin: ${margin}px 0;
+  `,
+);
 
 const StyledInput = styled.input<{
   theme: Theme;
@@ -482,8 +550,8 @@ const StyledInput = styled.input<{
 }>(
   ({ theme, align }) => css`
     border: none;
+    width: 450px;
     font-size: 18px;
-    width: 310px;
     height: 30px;
     background-color: ${theme.mode.bodyBackground};
 
@@ -491,6 +559,11 @@ const StyledInput = styled.input<{
 
     &:focus-visible {
       outline: none;
+    }
+
+    @media ${theme.deviceSize.phone} {
+      width: 300px;
+      font-size: 14px;
     }
   `,
 );
@@ -519,14 +592,29 @@ const HorizontalContainer = styled(Container)<{
 );
 
 const VerticalContainer = styled(Container)<{
+  theme: Theme;
   justifyContent?: "flex-start" | "space-between" | "center";
   gap?: number;
 }>(
-  ({ justifyContent = "center", gap = 0 }) => css`
+  ({ theme, justifyContent = "center", gap = 0 }) => css`
     width: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: ${justifyContent};
     gap: ${gap}px;
+
+    @media ${theme.deviceSize.phone} {
+      font-size: 13px;
+    }
+  `,
+);
+
+const ResultInfo = styled.span<{ theme: Theme }>(
+  ({ theme }) => css`
+    font-size: 18px;
+
+    @media ${theme.deviceSize.phone} {
+      font-size: 16px;
+    }
   `,
 );
