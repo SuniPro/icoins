@@ -4,6 +4,8 @@ import { ContentsContainer } from "../components/layouts/Layouts";
 import { Logo, LogoContainer, LogoText } from "../components/Logo/Logo";
 import { css, keyframes, Theme, useTheme } from "@emotion/react";
 import { InteractiveForm } from "../components/Form/InteractiveForm";
+import { useWindowContext } from "../context/WindowContext";
+import { useProportionHook } from "../hooks/useWindowHooks";
 
 const fadeUp = keyframes`
   from {
@@ -18,24 +20,29 @@ const fadeUp = keyframes`
 
 export function Main() {
   const theme = useTheme();
+  const { windowWidth } = useWindowContext();
+
+  const { size } = useProportionHook(windowWidth, 600, theme.windowSize.tablet);
+  const font = useProportionHook(windowWidth, 20, theme.windowSize.mobile);
+  const logo = useProportionHook(windowWidth, 28, theme.windowSize.mobile);
   return (
-    <MainContainer>
-      <LogoContainer width={630} height={140}>
+    <MainContainer width={size}>
+      <LogoContainer width={300} height={140}>
         <Logo fontSize={80} />
         <SubjectTitle theme={theme}>
           오직 당신을 위한 프라이빗 안전거래 시스템
         </SubjectTitle>
       </LogoContainer>
-      <GuideLine>
-        <SubjectTitle theme={theme} fontSize={20}>
+      <GuideLine theme={theme}>
+        <SubjectTitle theme={theme} fontSize={font.size}>
           업비트와 빗썸은 필수입니다.
         </SubjectTitle>
-        <SubjectTitle theme={theme} fontSize={20}>
-          <LogoText fontSize={28} /> 의 이용방법을 모르신다면,&nbsp;
+        <SubjectTitle theme={theme} fontSize={font.size}>
+          <LogoText fontSize={logo.size} /> 의 이용방법을 모르신다면,&nbsp;
           <a
             href={import.meta.env.VITE_TELEGRAM_URL}
             css={css`
-              font-size: 20px;
+              font-size: ${font.size}px;
               cursor: pointer;
               padding: 0;
               margin: 0;
@@ -46,7 +53,7 @@ export function Main() {
         </SubjectTitle>
       </GuideLine>
       <StyledContentsContainer>
-        <InteractiveForm />
+        <InteractiveForm windowWidth={windowWidth} />
       </StyledContentsContainer>
     </MainContainer>
   );
@@ -59,38 +66,48 @@ const SubjectTitle = styled.span<{ theme: Theme; fontSize?: number }>(
   `,
 );
 
-const MainContainer = styled.main`
-  width: 100%;
-  margin-top: 1rem;
+const MainContainer = styled.main<{ width: number }>(
+  ({ width }) => css`
+    width: ${width}px;
+    transform: translateY(1%);
+    height: auto;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-  ul {
-    padding: 0;
-    li {
-      text-align: left;
-      margin: 0 0 10px;
+    ul {
+      padding: 0;
+      li {
+        text-align: left;
+        margin: 0 0 10px;
+      }
     }
-  }
-`;
+  `,
+);
 
-const GuideLine = styled.div`
-  animation: ${fadeUp} 0.4s ease-in-out;
-  animation-fill-mode: both;
+const GuideLine = styled.div<{ theme: Theme }>(
+  ({ theme }) => css`
+    animation: ${fadeUp} 0.4s ease-in-out;
+    animation-fill-mode: both;
 
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  justify-content: center;
-  align-items: center;
-  margin-top: 40px;
-  margin-bottom: 50px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    margin-bottom: 50px;
 
-  gap: 10px;
-`;
+    gap: 10px;
+
+    @media ${theme.deviceSize.phone} {
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+  `,
+);
 
 const StyledContentsContainer = styled(ContentsContainer)`
   animation: ${fadeUp} 0.7s ease-in-out;

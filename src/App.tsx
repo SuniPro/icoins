@@ -29,7 +29,6 @@ function App() {
               <Route path="/" element={<Main />} />
             </Routes>
           </BrowserRouter>
-          {/*<footer style={{ height: "40px" }}></footer>*/}
           <GlobalStyled />
           <Toaster />
         </WindowContextProvider>
