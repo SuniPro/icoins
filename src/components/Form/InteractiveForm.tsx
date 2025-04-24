@@ -243,7 +243,6 @@ const Slider = styled.div<{
   width: number;
 }>(
   ({ step, contentsLength, width }) => css`
-    overflow: hidden;
     width: ${contentsLength * width}px;
     -webkit-transition: 0.3s all ease;
     -ms-transform: translate(0px) scale(1);
