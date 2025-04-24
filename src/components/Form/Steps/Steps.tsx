@@ -178,7 +178,7 @@ export function DepositRequest(props: {
   const { data: exchangeData } = useQuery({
     queryKey: ["getExchangeInfo"],
     queryFn: () => getExchangeInfo(),
-    refetchInterval: 300000,
+    refetchInterval: 30000,
   });
 
   // const { windowWidth } = useWindowContext();
