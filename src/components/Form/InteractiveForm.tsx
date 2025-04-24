@@ -27,6 +27,7 @@ export function InteractiveForm(props: { windowWidth: number }) {
   const [request, setRequest] = useState<TetherDepositRequestType>({
     tetherWallet: "",
     amount: 0,
+    usdtAmount: 0,
   });
 
   const { size } = useProportionHook(

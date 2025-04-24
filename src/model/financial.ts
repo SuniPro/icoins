@@ -27,6 +27,7 @@ export interface TetherCreateRequestType {
 export interface TetherDepositRequestType {
   tetherWallet: string;
   amount: number;
+  usdtAmount: number;
 }
 
 export interface TetherDepositType {
@@ -35,6 +36,7 @@ export interface TetherDepositType {
   email: string;
   insertDateTime: string;
   amount: number;
+  usdtAmount: number;
   accepted: boolean;
   acceptedAt: string;
   requestedAt: string;
