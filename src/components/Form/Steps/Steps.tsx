@@ -327,7 +327,9 @@ export function DepositRequest(props: {
         >
           {deposit === 0
             ? `${formatFloat(exchangeRate).toLocaleString("ko-KR")} 원`
-            : `${formatFloat(deposit / exchangeRate).toLocaleString("en-US")} USDT`}
+            : `${formatFloat(deposit / exchangeRate).toLocaleString(
+                "en-US",
+              )} USDT`}
         </h3>
       </HorizontalContainer>
       <HorizontalContainer justifyContent="space-between">
