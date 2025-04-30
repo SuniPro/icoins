@@ -72,6 +72,7 @@ function ConfirmReceiptAlert({
       <Description>아래에 거래 해시값을 입력해주세요.</Description>
       <StyledInput
         onChange={(e) => setHashValue(e.target.value)}
+        placeholder="txn hash를 입력해주세요."
         isCurrent={isSha256Hash(hashValue)}
         theme={theme}
       />
