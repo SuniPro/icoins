@@ -6,7 +6,6 @@ import {
   TetherCreateRequestType,
   TetherDepositRequestType,
 } from "../../../model/financial";
-import AcceptImage from "../../../assets/image/accpeted.png";
 import { Container } from "../../layouts/Frames/FrameLayouts";
 import Button from "@mui/material/Button";
 import { useQuery } from "@tanstack/react-query";
@@ -17,13 +16,20 @@ import {
   getLatestDepositByWallet,
   getTetherAccountByEmail,
 } from "../../../api/financial";
-import { ErrorAlert, SuccessAlert } from "../../Alert/Alerts";
+import {
+  ConfirmAlert,
+  ErrorAlert,
+  showConfirmReceiptAlert,
+  SuccessAlert,
+} from "../../Alert/Alerts";
 import { Spinner } from "../../Empty/Spinner";
 import { useSearchParams } from "react-router-dom";
 import { iso8601ToYYMMDDHHMM } from "../../styled/Date/DateFomatter";
 import { useWindowContext } from "../../../context/WindowContext";
 import { useProportionHook } from "../../../hooks/useWindowHooks";
 import { useDebounceHandler } from "../../../hooks/useDebounceHandler";
+import AccountQrcode from "../../../assets/image/account-qr-code.png";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 interface StepProps {
   step?: number;
@@ -79,7 +85,7 @@ export function InfoWriting(props: {
   infoState: tetherWalletInfoStateType;
 }) {
   const { stepFunc, infoState } = props;
-  const { next, prev, lastStep } = stepFunc;
+  const { next, prev } = stepFunc;
   const { info, setInfo } = infoState;
   const theme = useTheme();
   const [emailInputValue, setEmailInputValue] = useState<string>("");
@@ -87,7 +93,10 @@ export function InfoWriting(props: {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
-  const email = searchParams.get("email");
+  const email =
+    searchParams.get("email") === null
+      ? localStorage.getItem("email")
+      : searchParams.get("email");
 
   const { changeHandle } = useDebounceHandler(setEmailInputValue);
 
@@ -140,13 +149,14 @@ export function InfoWriting(props: {
     } else if (!isValidTetherAddress(info.tetherWallet)) {
       ErrorAlert("유효하지 않은 지갑 주소입니다.");
     } else {
+      window.localStorage.setItem("email", info.email);
       setLoading(true);
       createOrFindTetherAccount(info)
         .then((result) => {
           setLoading(false);
           SuccessAlert(`${result.email.split("@")[0]} 님 환영합니다.`);
           if (result.accepted !== null) {
-            result.accepted ? next?.() : lastStep?.();
+            next?.();
           } else {
             next?.();
           }
@@ -177,16 +187,38 @@ export function InfoWriting(props: {
             setInfo((prev) => ({ ...prev, email: value }));
           }}
           theme={theme}
+          css={css`
+            margin-bottom: 20px;
+          `}
         />
         <StyledInput
           type="text"
-          placeholder="지갑 주소를 입력하세요."
+          placeholder="지갑 주소를 입력해주세요."
           value={info.tetherWallet}
           onChange={(e) => {
             setInfo((prev) => ({ ...prev, tetherWallet: e.target.value }));
           }}
           theme={theme}
+          css={css`
+            margin-bottom: 10px;
+          `}
         />
+        <span
+          css={css`
+            width: 100%;
+            text-align: left;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            color: ${theme.mode.textSecondary};
+            transform: translateX(1%);
+          `}
+          onClick={() => {
+            window.open(import.meta.env.VITE_TELEGRAM_URL, "_blank");
+          }}
+        >
+          icoins의 사용법이 궁금하시다면 여기를 클릭하세요.
+        </span>
       </InputLine>
       <ButtonLine theme={theme}>
         <StyledButton type="button" onClick={prev}>
@@ -208,7 +240,7 @@ export function DepositRequest(props: {
   const { stepFunc, infoState, requestState } = props;
   const { next, prev } = stepFunc;
   const { info } = infoState;
-  const { request, setRequest } = requestState;
+  const { setRequest } = requestState;
   const theme = useTheme();
   const [deposit, setDeposit] = useState<number>(0);
   const { data: exchangeData } = useQuery({
@@ -249,17 +281,29 @@ export function DepositRequest(props: {
     } else if (!isValidTetherAddress(info.tetherWallet)) {
       ErrorAlert("테더 지갑만 가능합니다.");
     } else {
-      depositRequest(request)
-        .then((result) =>
-          SuccessAlert(`${result.amount} 원 입금 신청되었습니다.`),
-        )
-        .then(next)
-        .catch((err) => ErrorAlert(err.message));
+      next?.();
     }
   };
 
   return (
     <>
+      <span
+        css={css`
+          font-size: 16px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        `}
+      >
+        원화{" "}
+        <span
+          css={css`
+            color: ${theme.mode.textAccent};
+          `}
+        >
+          1만원 단위
+        </span>
+        로 입력 후 입금 테더 갯수 확인
+      </span>
       <HorizontalContainer justifyContent="space-between">
         <h3
           css={css`
@@ -415,24 +459,17 @@ export function DepositRequest(props: {
   );
 }
 
-export function WaitingForAccepted(props: {
+export function RequestDeposit(props: {
   stepFunc: StepProps;
   infoState: tetherWalletInfoStateType;
   requestState: depositRequestStateType;
 }) {
   const { requestState, stepFunc } = props;
-  const { step } = stepFunc;
+  const { next, prev } = stepFunc;
   const { request } = requestState;
   const theme = useTheme();
 
   const responseWalletRef = useRef<HTMLInputElement>(null);
-
-  const { data: depositRecord } = useQuery({
-    queryKey: ["getLatestDepositByWallet"],
-    queryFn: () => getLatestDepositByWallet(request.tetherWallet),
-    refetchInterval: 2000,
-    enabled: Boolean(request.tetherWallet.length !== 0) && step === 3,
-  });
 
   const copyResponseWallet = () => {
     if (!responseWalletRef.current) return;
@@ -447,13 +484,38 @@ export function WaitingForAccepted(props: {
       });
   };
 
-  if (!depositRecord) return;
+  const qrDownload = () => {
+    ConfirmAlert("QR을 다운로드 하시겠습니까?", () => {
+      const link = document.createElement("a");
+      link.href = AccountQrcode;
+      link.download = "icons-account-qrcode.png"; // 저장될 파일명
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  };
 
-  const isPending = depositRecord.status === "PENDING";
+  const nextStep = () => {
+    showConfirmReceiptAlert("입금을 완료하셨습니까?", () =>
+      depositRequest(request)
+        .then((result) => {
+          SuccessAlert(`${result.amount} 원 입금 신청되었습니다.`);
+          next?.();
+        })
+        .catch((err) => ErrorAlert(err.message)),
+    );
+  };
 
   return (
     <>
-      <Title>입금 지갑 주소 확인</Title>
+      <Title
+        css={css`
+          font-size: 18px;
+        `}
+      >
+        아래 QR 코드를 스캔하거나 주소를 복사하세요.
+      </Title>
+      <img src={AccountQrcode} alt="qr-code" onClick={qrDownload} />
       <VerticalContainer
         gap={4}
         css={css`
@@ -461,31 +523,107 @@ export function WaitingForAccepted(props: {
         `}
         theme={theme}
       >
-        <StyledInput
-          align="center"
-          readOnly
-          value={import.meta.env.VITE_ACCOUNT_NUMBER}
-          type="text"
-          css={css`
-            width: 500px;
-            font-size: 18px;
-            font-weight: bold;
-            color: ${theme.mode.highlight};
-          `}
-          ref={responseWalletRef}
-          onClick={copyResponseWallet}
-          theme={theme}
-        />
         <span
           css={css`
             font-family: ${theme.mode.font.component.itemDescription};
             font-size: 14px;
           `}
         >
-          위의 주소를 클릭해서 복사하세요.
+          아래 주소를 클릭해서 복사하세요.
         </span>
+        <div
+          onClick={copyResponseWallet}
+          css={css`
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+          `}
+        >
+          <StyledInput
+            align="center"
+            readOnly
+            value={import.meta.env.VITE_ACCOUNT_NUMBER}
+            type="text"
+            css={css`
+              width: 390px;
+              font-size: 18px;
+              font-weight: bold;
+              color: ${theme.mode.highlight};
+            `}
+            ref={responseWalletRef}
+            theme={theme}
+          />
+          <ContentCopyIcon fontSize="small" />
+        </div>
       </VerticalContainer>
 
+      <VerticalContainer
+        gap={10}
+        css={css`
+          width: 80%;
+          margin-bottom: 20px;
+        `}
+        theme={theme}
+      >
+        <h3
+          css={css`
+            font-size: 20px;
+          `}
+        >
+          신청 내역
+        </h3>
+        <HorizontalContainer fontSize={16} justifyContent="space-between">
+          <ResultInfo theme={theme}>원화 신청금액</ResultInfo>
+          <ResultInfo theme={theme}>{request.amount} 원</ResultInfo>
+        </HorizontalContainer>
+        <HorizontalContainer fontSize={16} justifyContent="space-between">
+          <ResultInfo theme={theme}>입금해야할 테더</ResultInfo>
+          <ResultInfo theme={theme}>{request.usdtAmount} USDT</ResultInfo>
+        </HorizontalContainer>
+      </VerticalContainer>
+      <ButtonLine theme={theme}>
+        <StyledButton type="button" onClick={prev}>
+          이전
+        </StyledButton>
+        <StyledButton type="button" onClick={nextStep}>
+          다음
+        </StyledButton>
+      </ButtonLine>
+    </>
+  );
+}
+
+export function WaitingAccepted(props: {
+  stepFunc: StepProps;
+  infoState: tetherWalletInfoStateType;
+  requestState: depositRequestStateType;
+}) {
+  const { requestState, stepFunc } = props;
+  const { step } = stepFunc;
+  const { request } = requestState;
+  const theme = useTheme();
+
+  const { data: depositRecord } = useQuery({
+    queryKey: ["getLatestDepositByWallet"],
+    queryFn: () => getLatestDepositByWallet(request.tetherWallet),
+    refetchInterval: 2000,
+    enabled: Boolean(request.tetherWallet.length !== 0) && step! > 2,
+  });
+
+  if (!depositRecord) return;
+
+  const isPending = depositRecord.status === "PENDING";
+
+  return (
+    <>
+      <Title
+        css={css`
+          margin-bottom: 20px;
+        `}
+      >
+        {isPending ? "현재 입금 확인 중 입니다." : "입금해주셔서 감사합니다."}
+      </Title>
       <VerticalContainer
         gap={10}
         css={css`
@@ -502,18 +640,18 @@ export function WaitingForAccepted(props: {
           신청 결과
         </h3>
         <HorizontalContainer fontSize={16} justifyContent="space-between">
-          <ResultInfo theme={theme}>신청금액</ResultInfo>
-          <ResultInfo theme={theme}>{depositRecord.amount} 원</ResultInfo>
-        </HorizontalContainer>
-        <HorizontalContainer fontSize={16} justifyContent="space-between">
-          <ResultInfo theme={theme}>입금예정 테더</ResultInfo>
-          <ResultInfo theme={theme}>{depositRecord.usdtAmount} USDT</ResultInfo>
-        </HorizontalContainer>
-        <HorizontalContainer fontSize={16} justifyContent="space-between">
           <ResultInfo theme={theme}>요청일시</ResultInfo>
           <ResultInfo theme={theme}>
             {iso8601ToYYMMDDHHMM(depositRecord.requestedAt)}
           </ResultInfo>
+        </HorizontalContainer>
+        <HorizontalContainer fontSize={16} justifyContent="space-between">
+          <ResultInfo theme={theme}>신청금액</ResultInfo>
+          <ResultInfo theme={theme}>{depositRecord.amount} 원</ResultInfo>
+        </HorizontalContainer>
+        <HorizontalContainer fontSize={16} justifyContent="space-between">
+          <ResultInfo theme={theme}>테더 개수</ResultInfo>
+          <ResultInfo theme={theme}>{depositRecord.usdtAmount} USDT</ResultInfo>
         </HorizontalContainer>
         {isPending ? (
           <HorizontalContainer justifyContent="space-between">
@@ -529,19 +667,14 @@ export function WaitingForAccepted(props: {
           </HorizontalContainer>
         )}
       </VerticalContainer>
-      <div>
-        {isPending ? (
-          <Spinner />
-        ) : (
-          <img
-            css={css`
-              width: 230px;
-            `}
-            src={AcceptImage}
-            alt="Accept"
-          />
-        )}
-      </div>
+      <Title
+        css={css`
+          color: red;
+          margin-top: 20px;
+        `}
+      >
+        전송을 완료하셨으면,<br></br> 사이트에서 입금 신청을 부탁드리겠습니다.
+      </Title>
     </>
   );
 }
@@ -586,10 +719,8 @@ const InputLine = styled.div<{ margin: number }>(
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-
-    gap: 30px;
 
     width: 100%;
 

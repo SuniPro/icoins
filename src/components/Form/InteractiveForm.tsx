@@ -6,11 +6,11 @@ import {
   TetherDepositRequestType,
 } from "../../model/financial";
 import {
-  Consent,
   DepositRequest,
   InfoWriting,
-  WaitingForAccepted,
-} from "./Steps/Steps";
+  RequestDeposit,
+  WaitingAccepted,
+} from "./Steps";
 import { useProportionHook } from "../../hooks/useWindowHooks";
 
 export function InteractiveForm(props: { windowWidth: number }) {
@@ -43,10 +43,6 @@ export function InteractiveForm(props: { windowWidth: number }) {
 
   const steps = [
     {
-      title: "안내사항",
-      component: <Consent stepFunc={{ next, prev }} />,
-    },
-    {
       title: "정보입력",
       component: (
         <InfoWriting
@@ -59,7 +55,7 @@ export function InteractiveForm(props: { windowWidth: number }) {
       ),
     },
     {
-      title: "입금",
+      title: "시세확인",
       component: (
         <DepositRequest
           stepFunc={{ next, prev }}
@@ -72,10 +68,26 @@ export function InteractiveForm(props: { windowWidth: number }) {
       ),
     },
     {
+      title: "입금신청",
+      component: (
+        <RequestDeposit
+          stepFunc={{ next, prev, step }}
+          infoState={{
+            info,
+            setInfo,
+          }}
+          requestState={{
+            request,
+            setRequest,
+          }}
+        />
+      ),
+    },
+    {
       title: "입금확인",
       component: (
-        <WaitingForAccepted
-          stepFunc={{ prev, step }}
+        <WaitingAccepted
+          stepFunc={{ next, prev, step }}
           infoState={{
             info,
             setInfo,
