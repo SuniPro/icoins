@@ -52,6 +52,6 @@ export const LogoContainer = styled.div<{
     display: flex;
     flex-direction: column;
 
-    margin-bottom: 1rem;
+    margin-bottom: 5rem;
   `,
 );

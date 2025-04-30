@@ -245,7 +245,8 @@ const darkMode = {
   textAccent: colors.azure, // ✅ 여기
   textDisable: colors.steelGray,
 
-  error: colors.warningRed,
+  success: colors.successGreen,
+  warning: colors.warningRed,
 
   buttonBackground: colors.azure,
   buttonHoverBackground: colors.trueBlue,

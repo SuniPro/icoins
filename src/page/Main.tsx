@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { ContentsContainer } from "../components/layouts/Layouts";
-import { Logo, LogoContainer, LogoText } from "../components/Logo/Logo";
+import { Logo, LogoContainer } from "../components/Logo/Logo";
 import { css, keyframes, Theme, useTheme } from "@emotion/react";
 import { InteractiveForm } from "../components/Form/InteractiveForm";
 import { useWindowContext } from "../context/WindowContext";
@@ -23,8 +23,6 @@ export function Main() {
   const { windowWidth } = useWindowContext();
 
   const { size } = useProportionHook(windowWidth, 600, theme.windowSize.tablet);
-  const font = useProportionHook(windowWidth, 20, theme.windowSize.mobile);
-  const logo = useProportionHook(windowWidth, 28, theme.windowSize.mobile);
   return (
     <MainContainer width={size}>
       <LogoContainer width={300} height={140}>
@@ -33,25 +31,6 @@ export function Main() {
           오직 당신을 위한 프라이빗 안전거래 시스템
         </SubjectTitle>
       </LogoContainer>
-      <GuideLine theme={theme}>
-        <SubjectTitle theme={theme} fontSize={font.size}>
-          업비트와 빗썸은 필수입니다.
-        </SubjectTitle>
-        <SubjectTitle theme={theme} fontSize={font.size}>
-          <LogoText fontSize={logo.size} /> 의 이용방법을 모르신다면,&nbsp;
-          <a
-            href={import.meta.env.VITE_TELEGRAM_URL}
-            css={css`
-              font-size: ${font.size}px;
-              cursor: pointer;
-              padding: 0;
-              margin: 0;
-            `}
-          >
-            여기를 클릭하세요.
-          </a>
-        </SubjectTitle>
-      </GuideLine>
       <StyledContentsContainer>
         <InteractiveForm windowWidth={windowWidth} />
       </StyledContentsContainer>
@@ -83,28 +62,6 @@ const MainContainer = styled.main<{ width: number }>(
         text-align: left;
         margin: 0 0 10px;
       }
-    }
-  `,
-);
-
-const GuideLine = styled.div<{ theme: Theme }>(
-  ({ theme }) => css`
-    animation: ${fadeUp} 0.4s ease-in-out;
-    animation-fill-mode: both;
-
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-    align-items: center;
-    margin-top: 40px;
-    margin-bottom: 50px;
-
-    gap: 10px;
-
-    @media ${theme.deviceSize.phone} {
-      margin-top: 10px;
-      margin-bottom: 20px;
     }
   `,
 );
