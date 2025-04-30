@@ -214,7 +214,7 @@ export function InfoWriting(props: {
             transform: translateX(1%);
           `}
           onClick={() => {
-            window.open(import.meta.env.VITE_TELEGRAM_URL, "_blank");
+            window.open(import.meta.env.VITE_GUIDE_PAGE, "_blank");
           }}
         >
           icoins의 사용법이 궁금하시다면 여기를 클릭하세요.
