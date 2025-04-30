@@ -326,8 +326,8 @@ export function DepositRequest(props: {
           `}
         >
           {deposit === 0
-            ? `${formatFloat(exchangeRate)} 원`
-            : `${formatFloat(deposit / exchangeRate)} USDT`}
+            ? `${formatFloat(exchangeRate).toLocaleString("ko-KR")} 원`
+            : `${formatFloat(deposit / exchangeRate).toLocaleString("en-US")} USDT`}
         </h3>
       </HorizontalContainer>
       <HorizontalContainer justifyContent="space-between">
@@ -363,7 +363,7 @@ export function DepositRequest(props: {
             `}
             align="right"
             placeholder="입금금액"
-            value={formattedDeposit}
+            value={formattedDeposit.toLocaleString("ko-KR")}
             onChange={(e) => handleDepositInput(e.target.value)}
             theme={theme}
           />
@@ -499,7 +499,9 @@ export function RequestDeposit(props: {
     showConfirmReceiptAlert("입금을 완료하셨습니까?", () =>
       depositRequest(request)
         .then((result) => {
-          SuccessAlert(`${result.amount} 원 입금 신청되었습니다.`);
+          SuccessAlert(
+            `${result.amount.toLocaleString("ko-KR")} 원 입금 신청되었습니다.`,
+          );
           next?.();
         })
         .catch((err) => ErrorAlert(err.message)),
@@ -575,11 +577,15 @@ export function RequestDeposit(props: {
         </h3>
         <HorizontalContainer fontSize={16} justifyContent="space-between">
           <ResultInfo theme={theme}>원화 신청금액</ResultInfo>
-          <ResultInfo theme={theme}>{request.amount} 원</ResultInfo>
+          <ResultInfo theme={theme}>
+            {request.amount.toLocaleString("ko-KR")} 원
+          </ResultInfo>
         </HorizontalContainer>
         <HorizontalContainer fontSize={16} justifyContent="space-between">
           <ResultInfo theme={theme}>입금해야할 테더</ResultInfo>
-          <ResultInfo theme={theme}>{request.usdtAmount} USDT</ResultInfo>
+          <ResultInfo theme={theme}>
+            {request.usdtAmount.toLocaleString("en-US")} USDT
+          </ResultInfo>
         </HorizontalContainer>
       </VerticalContainer>
       <ButtonLine theme={theme}>
@@ -647,11 +653,15 @@ export function WaitingAccepted(props: {
         </HorizontalContainer>
         <HorizontalContainer fontSize={16} justifyContent="space-between">
           <ResultInfo theme={theme}>신청금액</ResultInfo>
-          <ResultInfo theme={theme}>{depositRecord.amount} 원</ResultInfo>
+          <ResultInfo theme={theme}>
+            {depositRecord.amount.toLocaleString("ko-KR")} 원
+          </ResultInfo>
         </HorizontalContainer>
         <HorizontalContainer fontSize={16} justifyContent="space-between">
           <ResultInfo theme={theme}>테더 개수</ResultInfo>
-          <ResultInfo theme={theme}>{depositRecord.usdtAmount} USDT</ResultInfo>
+          <ResultInfo theme={theme}>
+            {depositRecord.usdtAmount.toLocaleString("en-US")} USDT
+          </ResultInfo>
         </HorizontalContainer>
         {isPending ? (
           <HorizontalContainer justifyContent="space-between">
