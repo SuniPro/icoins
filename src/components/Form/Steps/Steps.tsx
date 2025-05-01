@@ -30,6 +30,8 @@ import { useProportionHook } from "../../../hooks/useWindowHooks";
 import { useDebounceHandler } from "../../../hooks/useDebounceHandler";
 import AccountQrcode from "../../../assets/image/account-qr-code.png";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import useSound from "use-sound";
+import alertSound from "../../../assets/sound/alert/alert.mp3";
 
 interface StepProps {
   step?: number;
@@ -610,7 +612,9 @@ export function WaitingAccepted(props: {
   const { requestState, stepFunc } = props;
   const { step } = stepFunc;
   const { request } = requestState;
+
   const theme = useTheme();
+  const [play] = useSound(alertSound);
 
   const { data: depositRecord } = useQuery({
     queryKey: ["getLatestDepositByWallet"],
@@ -618,6 +622,18 @@ export function WaitingAccepted(props: {
     refetchInterval: 2000,
     enabled: Boolean(request.tetherWallet.length !== 0) && step! > 2,
   });
+
+  const prevState = useRef<boolean>(depositRecord?.accepted || false);
+
+  useEffect(() => {
+    const currentState = depositRecord?.accepted || false;
+
+    if (depositRecord && currentState && prevState.current !== currentState) {
+      play();
+    }
+
+    prevState.current = currentState;
+  }, [depositRecord?.accepted, depositRecord, play]);
 
   if (!depositRecord) return;
 
