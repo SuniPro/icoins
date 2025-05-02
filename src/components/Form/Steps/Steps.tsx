@@ -50,30 +50,6 @@ interface depositRequestStateType {
   setRequest: Dispatch<SetStateAction<TetherDepositRequestType>>;
 }
 
-export function Consent(props: { stepFunc: StepProps }) {
-  const { next } = props.stepFunc;
-  const theme = useTheme();
-
-  return (
-    <>
-      <VerticalContainer theme={theme}>
-        <Title>입금 전 안내사항</Title>
-        <ul>
-          <li>반드시 본인의 지갑주소를 정확히 입력하세요.</li>
-          <li>안내받은 입금 전용 주소를 정확히 확인 후에 입금하세요.</li>
-          <li>회원님의 부주의로 인한 문제 발생 시 반환이 불가합니다.</li>
-        </ul>
-      </VerticalContainer>
-
-      <ButtonLine theme={theme}>
-        <StyledButton type="button" onClick={next}>
-          동의
-        </StyledButton>
-      </ButtonLine>
-    </>
-  );
-}
-
 const formatFloat = (value: number): number => parseFloat(value.toFixed(2));
 
 const isValidTetherAddress = (address: string): boolean => {
@@ -87,7 +63,7 @@ export function InfoWriting(props: {
   infoState: tetherWalletInfoStateType;
 }) {
   const { stepFunc, infoState } = props;
-  const { next, prev } = stepFunc;
+  const { next } = stepFunc;
   const { info, setInfo } = infoState;
   const theme = useTheme();
   const [emailInputValue, setEmailInputValue] = useState<string>("");
@@ -223,9 +199,6 @@ export function InfoWriting(props: {
         </span>
       </InputLine>
       <ButtonLine theme={theme}>
-        <StyledButton type="button" onClick={prev}>
-          이전
-        </StyledButton>
         <StyledButton type="button" onClick={nextStep}>
           다음
         </StyledButton>
