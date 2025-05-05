@@ -21,6 +21,7 @@ export function InteractiveForm(props: { windowWidth: number }) {
 
   const [info, setInfo] = useState<TetherCreateRequestType>({
     email: "",
+    site: null,
     tetherWallet: "",
   });
 
