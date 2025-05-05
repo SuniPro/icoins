@@ -22,6 +22,7 @@ export interface TetherAccountAndDepositType {
 
 export interface TetherCreateRequestType {
   email: string;
+  site: string | null;
   tetherWallet: string;
 }
 

@@ -76,6 +76,8 @@ export function InfoWriting(props: {
       ? localStorage.getItem("email")
       : searchParams.get("email");
 
+  const site = searchParams.get("site");
+
   const { changeHandle } = useDebounceHandler(setEmailInputValue);
 
   useEffect(() => {
@@ -128,8 +130,10 @@ export function InfoWriting(props: {
       ErrorAlert("유효하지 않은 지갑 주소입니다.");
     } else {
       window.localStorage.setItem("email", info.email);
+      const userInfo = info;
+      userInfo.site = site;
       setLoading(true);
-      createOrFindTetherAccount(info)
+      createOrFindTetherAccount(userInfo)
         .then((result) => {
           setLoading(false);
           SuccessAlert(`${result.email.split("@")[0]} 님 환영합니다.`);
@@ -174,7 +178,11 @@ export function InfoWriting(props: {
           placeholder="지갑 주소를 입력해주세요."
           value={info.tetherWallet}
           onChange={(e) => {
-            setInfo((prev) => ({ ...prev, tetherWallet: e.target.value }));
+            setInfo((prev) => ({
+              ...prev,
+              tetherWallet: e.target.value,
+              site,
+            }));
           }}
           theme={theme}
           css={css`
