@@ -6,7 +6,7 @@ export function Logo(props: { className?: string; fontSize?: number }) {
   const theme = useTheme();
   return (
     <LogoTextCase className={className} fontSize={fontSize} theme={theme}>
-      <StyledI fontSize={fontSize + 10}>i</StyledI> conins
+      <StyledI fontSize={fontSize + 10}>i</StyledI> coins
     </LogoTextCase>
   );
 }
@@ -16,7 +16,7 @@ export function LogoText(props: { className?: string; fontSize?: number }) {
   const theme = useTheme();
   return (
     <LogoTextCase className={className} fontSize={fontSize} theme={theme}>
-      i conins
+      i coins
     </LogoTextCase>
   );
 }
