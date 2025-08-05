@@ -2,6 +2,22 @@ import { RefObject, useCallback, useEffect, useState } from "react";
 import { useEventListener } from "usehooks-ts";
 import _ from "lodash";
 
+/** 글로벌 wheel event 를 감지합니다.*/
+export function useWindowScroll() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handle = () => setScrollY(window.scrollY);
+    // 브라우저 스크롤 이벤트 등록
+    window.addEventListener("scroll", handle, { passive: true });
+    // 최초 마운트 시 현재 값도 세팅
+    handle();
+    return () => window.removeEventListener("scroll", handle);
+  }, []);
+
+  return { scrollY };
+}
+
 /** ref로 전달된 컴포넌트에 wheel이벤트를 등록하여 세로 스크롤 동작 대신 가로 스크롤이 동작하게 만듭니다.
  * 횡스크롤 동작은 원래 shift+scroll이지만 scroll만으로도 동작하게 만듭니다.
  */
