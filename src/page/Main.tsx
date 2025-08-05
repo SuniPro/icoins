@@ -1,54 +1,240 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { ContentsContainer } from "../components/layouts/Layouts";
-import { Logo, LogoContainer } from "../components/Logo/Logo";
-import { css, keyframes, Theme, useTheme } from "@emotion/react";
-import { InteractiveForm } from "../components/Form/InteractiveForm";
+import { css, Theme, useTheme } from "@emotion/react";
 import { useWindowContext } from "../context/WindowContext";
 import { useProportionHook } from "../hooks/useWindowHooks";
+import { Header } from "../components/layouts/Frames/Header";
+import { ExtentButton } from "../components/styled/Button/ExtentButton";
+import HelpIcon from "@mui/icons-material/Help";
+import CelebrationIcon from "@mui/icons-material/Celebration";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import { SearchBar } from "../components/Search";
+import { MainNavigation } from "../components/layouts/Frames/MainNavigation";
+import {
+  Advertisement,
+  AdvertisementPropsType,
+} from "../components/Card/Advertisement";
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 
-const fadeUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+import basketBall from "../assets/image/game/sport/basketball-goal.jpg";
+import f1 from "../assets/image/game/sport/matt-seymour-3uu5_kn1k_Y-unsplash.jpg";
+import baseBall from "../assets/image/game/sport/baseball.jpg";
+import { ScrollImage } from "../components/Image/ScrollImage";
+
+import businessImage from "../assets/image/businessImage.jpg";
+import { uid } from "uid";
+import { useEffect, useState } from "react";
+import { useWindowScroll } from "../hooks/useWheel";
+
+export const DUMMY_AD: AdvertisementPropsType[] = [
+  {
+    image: basketBall,
+    color: "#ff2121",
+    title: "ICOINS 특별 이벤트.",
+    description:
+      "지금 OKX 에 초대 코드를 입력하고 가입하면 0.6 Payback 이 주어집니다.",
+    tag: [
+      { name: "OKX", color: "#ff2121" },
+      { name: "PAYBACK-EVENT", color: "#0033ff" },
+    ],
+    link: "",
+  },
+  {
+    image: f1,
+    color: "#162dd3",
+    title: "F1 특별 이벤트",
+    description:
+      "Fill out the form and the algorithm will offer the right team of experts",
+    tag: [
+      { name: "BYNANCE", color: "#D3B19AFF" },
+      { name: "packaging", color: "#70b3b1" },
+    ],
+    link: "",
+  },
+  {
+    image: baseBall,
+    color: "#D3B19AFF",
+    title: "KBO 특별 이벤트",
+    description:
+      "Fill out the form and the algorithm will offer the right team of experts",
+    tag: [
+      { name: "branding", color: "#D3B19AFF" },
+      { name: "packaging", color: "#70b3b1" },
+    ],
+    link: "",
+  },
+  {
+    image: basketBall,
+    color: "#ff2121",
+    title: "NBA 리그 개최 특별 이벤트.",
+    description: "지금 승리에 배팅하면 원래 배당의 0.5% PayBack이 주어집니다.",
+    tag: [
+      { name: "BASKETBALL", color: "#ff2121" },
+      { name: "NBA", color: "#0033ff" },
+    ],
+    link: "",
+  },
+  {
+    image: f1,
+    color: "#162dd3",
+    title: "F1 특별 이벤트",
+    description:
+      "Fill out the form and the algorithm will offer the right team of experts",
+    tag: [
+      { name: "branding", color: "#D3B19AFF" },
+      { name: "packaging", color: "#70b3b1" },
+    ],
+    link: "",
+  },
+  {
+    image: baseBall,
+    color: "#D3B19AFF",
+    title: "KBO 특별 이벤트",
+    description:
+      "Fill out the form and the algorithm will offer the right team of experts",
+    tag: [
+      { name: "branding", color: "#D3B19AFF" },
+      { name: "packaging", color: "#70b3b1" },
+    ],
+    link: "",
+  },
+];
+
+const advertiseSizeCalculator = (
+  theme: Theme,
+  windowWidth: number,
+  componentWidth: number,
+  gap: number,
+  length: number,
+): number => {
+  const componentTotalGap = gap * (length - 1);
+  const innerSize = componentWidth * 0.9;
+
+  const isDesktop = windowWidth >= theme.windowSize.HD;
+  const isTablet =
+    windowWidth < theme.windowSize.HD && windowWidth > theme.windowSize.tablet;
+
+  if (isDesktop) {
+    return (innerSize - componentTotalGap) / 3;
+  } else if (isTablet) {
+    return (innerSize - componentTotalGap) / 2;
+  } else {
+    return innerSize - componentTotalGap;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
+};
 
 export function Main() {
   const theme = useTheme();
   const { windowWidth } = useWindowContext();
 
-  const { size } = useProportionHook(windowWidth, 600, theme.windowSize.tablet);
+  const { scrollY } = useWindowScroll();
+  const [imageView, setImageView] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (scrollY > 0) {
+      setTimeout(() => {
+        setImageView(false);
+      }, 700);
+    }
+  }, [scrollY]);
+
+  const { size } = useProportionHook(
+    windowWidth,
+    windowWidth * 0.9,
+    theme.windowSize.tablet,
+  );
+
+  const mainComponentSize =
+    size <= theme.windowSize.mobile ? windowWidth : size;
+
   return (
-    <MainContainer width={size}>
-      <LogoContainer width={300} height={140}>
-        <Logo fontSize={80} />
-        <SubjectTitle theme={theme}>
-          오직 당신을 위한 프라이빗 안전거래 시스템
-        </SubjectTitle>
-      </LogoContainer>
-      <StyledContentsContainer>
-        <InteractiveForm windowWidth={windowWidth} />
-      </StyledContentsContainer>
-    </MainContainer>
+    <>
+      <Header />
+      {imageView ? (
+        <ScrollImage
+          image={businessImage}
+          width={windowWidth}
+          view={scrollY > 0}
+        />
+      ) : (
+        <ArrowCircleLeftIcon
+          fontSize="large"
+          onClick={() => setImageView(true)}
+          css={css`
+            margin-top: 90px;
+            transform: rotate(90deg);
+
+            fill: ${theme.mode.highlight};
+          `}
+        />
+      )}
+      <MainContainer width={mainComponentSize} theme={theme}>
+        <MainNavigation gap="margin-bottom : 70px" />
+        <SearchBar />
+        <div
+          css={css`
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 90%;
+
+            padding: 60px 0;
+
+            gap: 20px;
+
+            box-sizing: border-box;
+
+            justify-content: space-between;
+
+            @media screen and (max-width: ${theme.windowSize.tablet}px) {
+              justify-content: center;
+            }
+          `}
+        >
+          {DUMMY_AD.map((ad, index, array) => (
+            <div key={`${uid()}-${ad.image}-${index}`}>
+              <Advertisement
+                contents={ad}
+                width={advertiseSizeCalculator(
+                  theme,
+                  windowWidth,
+                  mainComponentSize,
+                  20,
+                  array.length,
+                )}
+                height={
+                  advertiseSizeCalculator(
+                    theme,
+                    windowWidth,
+                    mainComponentSize,
+                    10,
+                    array.length,
+                  ) * 0.6
+                }
+              />
+            </div>
+          ))}
+        </div>
+      </MainContainer>
+      <ExtentButton
+        option={{
+          count: 3,
+          key: "top-left",
+          icons: [
+            <HelpIcon fontSize="medium" />,
+            <CelebrationIcon fontSize="medium" />,
+            <TelegramIcon fontSize="medium" />,
+          ],
+        }}
+      />
+    </>
   );
 }
 
-const SubjectTitle = styled.span<{ theme: Theme; fontSize?: number }>(
-  ({ theme, fontSize }) => css`
-    font-family: ${theme.mode.font.component.itemTitle};
-    font-size: ${fontSize}px;
-  `,
-);
-
-const MainContainer = styled.main<{ width: number }>(
-  ({ width }) => css`
+const MainContainer = styled.main<{ width: number; theme: Theme }>(
+  ({ width, theme }) => css`
     width: ${width}px;
-    transform: translateY(1%);
+    transform: translateY(90px);
     height: auto;
 
     display: flex;
@@ -56,17 +242,7 @@ const MainContainer = styled.main<{ width: number }>(
     align-items: center;
     justify-content: center;
 
-    ul {
-      padding: 0;
-      li {
-        text-align: left;
-        margin: 0 0 10px;
-      }
-    }
+    background-color: ${theme.mode.cardBackground};
+    border-radius: ${theme.borderRadius.softBox};
   `,
 );
-
-const StyledContentsContainer = styled(ContentsContainer)`
-  animation: ${fadeUp} 0.7s ease-in-out;
-  animation-fill-mode: both;
-`;
