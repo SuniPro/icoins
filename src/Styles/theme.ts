@@ -77,6 +77,7 @@ const borderRadius = {
 
 const colors = {
   white: "#FFFFFF",
+  brightGray: "#ededed",
   lotion: "#fdfdfd",
   black: "#000000",
   gray: "#979797",
@@ -106,7 +107,6 @@ const colors = {
   steelGray: "#A0A0A0",
   graniteGray: "#606060",
   softWhiteGray: "#F2F2F2", // 기존 whiteGray
-  brightGray: "#E6EEF3",
   lightGray: "#B0B0B0",
 
   // ✅ Accent Colors
@@ -149,7 +149,7 @@ const colors = {
 
 const defaultMode = {
   // 배경
-  bodyBackground: colors.lotion,
+  bodyBackground: colors.brightGray,
   contentBackground: colors.white,
   cardBackground: colors.white,
 
@@ -158,6 +158,8 @@ const defaultMode = {
   textSecondary: colors.graniteGray,
   textAccent: colors.azure, // ✅ 여기
   textDisable: colors.steelGray,
+
+  textReverse: colors.white,
 
   error: colors.warningRed,
 
@@ -200,9 +202,14 @@ const defaultMode = {
   footerBackground: colors.midnightBlack,
   footerText: colors.lightGray,
 
+  logo: {
+    color: colors.azure,
+    font: fontStyle.iBrand,
+  },
+
   // 폰트는 그대로 유지
   font: {
-    logo: fontStyle.iBrand,
+    title: fontStyle.sCoreDreamExtraBold,
     header: {
       menuItem: fontStyle.koPubDotumBold,
       user: fontStyle.nanumGothic,
@@ -245,6 +252,8 @@ const darkMode = {
   textAccent: colors.azure, // ✅ 여기
   textDisable: colors.steelGray,
 
+  textReverse: colors.black,
+
   success: colors.successGreen,
   warning: colors.warningRed,
 
@@ -269,8 +278,13 @@ const darkMode = {
 
   hoverEffect: colors.azureOpacity30,
 
+  logo: {
+    color: colors.azure,
+    font: fontStyle.iBrand,
+  },
+
   font: {
-    logo: fontStyle.iBrand,
+    title: fontStyle.sCoreDreamExtraBold,
     header: {
       menuItem: fontStyle.yesGothicExtraBold,
       user: fontStyle.appleNeoBold,

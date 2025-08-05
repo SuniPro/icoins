@@ -9,6 +9,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Main } from "./page/Main";
 import { GlobalStyled } from "./components/layouts/Frames/FrameLayouts";
 import { Toaster } from "react-hot-toast";
+import { Transaction } from "./page/Transaction";
 
 const QUERY_CLIENT = new QueryClient();
 
@@ -24,13 +25,16 @@ function App() {
     <ThemeProvider theme={darkMode ? darkTheme : defaultTheme}>
       <QueryClientProvider client={QUERY_CLIENT}>
         <WindowContextProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Main />} />
-            </Routes>
-          </BrowserRouter>
-          <GlobalStyled />
-          <Toaster />
+            <BrowserRouter>
+          {/*<UserContextProvider>*/}
+              <Routes>
+                <Route path="/" element={<Main />} />
+                <Route path="/transaction" element={<Transaction />} />
+              </Routes>
+          {/*</UserContextProvider>*/}
+            </BrowserRouter>
+            <GlobalStyled />
+            <Toaster />
         </WindowContextProvider>
       </QueryClientProvider>
     </ThemeProvider>

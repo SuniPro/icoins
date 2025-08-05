@@ -26,6 +26,8 @@ export const StyledBadge = styled(Badge)`
     position: absolute;
     top: -12px;
     right: -12px;
+
+    color: white;
   }
 `;
 
