@@ -1,21 +1,39 @@
 import { css, Theme, useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
 
-export function Logo(props: { className?: string; height?: number; fontSize?: number }) {
+export function Logo(props: {
+  className?: string;
+  height?: number;
+  fontSize?: number;
+}) {
   const { className, height = 100, fontSize = 28 } = props;
   const theme = useTheme();
   return (
-    <LogoTextCase className={className} height={height} fontSize={fontSize} theme={theme}>
+    <LogoTextCase
+      className={className}
+      height={height}
+      fontSize={fontSize}
+      theme={theme}
+    >
       <StyledI fontSize={fontSize + 10}>i</StyledI> coins
     </LogoTextCase>
   );
 }
 
-export function LogoText(props: { className?: string; height?: number; fontSize?: number }) {
+export function LogoText(props: {
+  className?: string;
+  height?: number;
+  fontSize?: number;
+}) {
   const { className, height = 100, fontSize = 28 } = props;
   const theme = useTheme();
   return (
-    <LogoTextCase className={className} height={height} fontSize={fontSize} theme={theme}>
+    <LogoTextCase
+      className={className}
+      height={height}
+      fontSize={fontSize}
+      theme={theme}
+    >
       i coins
     </LogoTextCase>
   );
@@ -27,7 +45,11 @@ const StyledI = styled.span<{ fontSize: number }>(
   `,
 );
 
-const LogoTextCase = styled.span<{ fontSize: number; height : number; theme: Theme }>(
+const LogoTextCase = styled.span<{
+  fontSize: number;
+  height: number;
+  theme: Theme;
+}>(
   ({ theme, height, fontSize }) => css`
     white-space: nowrap;
 

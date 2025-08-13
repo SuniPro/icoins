@@ -14,17 +14,12 @@ import {
   Advertisement,
   AdvertisementPropsType,
 } from "../components/Card/Advertisement";
-import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 
 import basketBall from "../assets/image/game/sport/basketball-goal.jpg";
 import f1 from "../assets/image/game/sport/matt-seymour-3uu5_kn1k_Y-unsplash.jpg";
 import baseBall from "../assets/image/game/sport/baseball.jpg";
-import { ScrollImage } from "../components/Image/ScrollImage";
 
-import businessImage from "../assets/image/businessImage.jpg";
 import { uid } from "uid";
-import { useEffect, useState } from "react";
-import { useWindowScroll } from "../hooks/useWheel";
 
 export const DUMMY_AD: AdvertisementPropsType[] = [
   {
@@ -127,17 +122,6 @@ export function Main() {
   const theme = useTheme();
   const { windowWidth } = useWindowContext();
 
-  const { scrollY } = useWindowScroll();
-  const [imageView, setImageView] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (scrollY > 0) {
-      setTimeout(() => {
-        setImageView(false);
-      }, 700);
-    }
-  }, [scrollY]);
-
   const { size } = useProportionHook(
     windowWidth,
     windowWidth * 0.9,
@@ -150,24 +134,6 @@ export function Main() {
   return (
     <>
       <Header />
-      {imageView ? (
-        <ScrollImage
-          image={businessImage}
-          width={windowWidth}
-          view={scrollY > 0}
-        />
-      ) : (
-        <ArrowCircleLeftIcon
-          fontSize="large"
-          onClick={() => setImageView(true)}
-          css={css`
-            margin-top: 90px;
-            transform: rotate(90deg);
-
-            fill: ${theme.mode.highlight};
-          `}
-        />
-      )}
       <MainContainer width={mainComponentSize} theme={theme}>
         <MainNavigation gap="margin-bottom : 70px" />
         <SearchBar />

@@ -223,7 +223,7 @@ const defaultMode = {
     search: fontStyle.yesGothicMedium,
     component: {
       mainTitle: fontStyle.koPubDotumBold,
-      itemTitle: fontStyle.koPubDotumBold,
+      itemTitle: fontStyle.yesGothicMedium,
       itemDescription: fontStyle.yesGothicMedium,
     },
     dynamicIsland: {
