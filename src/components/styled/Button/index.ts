@@ -1,2 +1,2 @@
-export * from './Button';
-export * from "./FingerPrint"
+export * from "./Button";
+export * from "./FingerPrint";

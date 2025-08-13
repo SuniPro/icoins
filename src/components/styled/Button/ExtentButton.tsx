@@ -66,11 +66,8 @@ export function ExtentButton(props: { option: OptionType }) {
     <>
       <ButtonContainer data-options={variantKey}>
         {/* primary 버튼 */}
-        <PrimaryButton
-          onClick={() => setIsExtent((prev) => !prev)}
-          isActive={isExtent}
-        >
-          <AddButton isActive={isExtent} />
+        <PrimaryButton onClick={() => setIsExtent((prev) => !prev)}>
+          <AddButton rotate={isExtent ? "rotate(45deg)" : "rotate(0deg)"} />
         </PrimaryButton>
         {option.icons.map((icon, i) => (
           <OptionButton
@@ -101,7 +98,7 @@ const ButtonContainer = styled.div`
   border-radius: 40px;
 `;
 
-const PrimaryButton = styled.button<{ isActive: boolean }>`
+const PrimaryButton = styled.button`
   background-color: #2196f3;
   position: absolute;
   top: 0;
@@ -115,9 +112,9 @@ const PrimaryButton = styled.button<{ isActive: boolean }>`
   outline: none;
 `;
 
-const AddButton = styled(AddIcon)<{ isActive: boolean }>(
-  ({ isActive }) => css`
-    transform: ${isActive ? "rotate(45deg)" : "rotate(0deg)"};
+const AddButton = styled(AddIcon)<{ rotate: string }>(
+  ({ rotate }) => css`
+    transform: rotate(${rotate});
     font-size: 24px;
     position: absolute;
     top: 25%;

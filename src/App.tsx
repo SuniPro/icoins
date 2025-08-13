@@ -25,16 +25,16 @@ function App() {
     <ThemeProvider theme={darkMode ? darkTheme : defaultTheme}>
       <QueryClientProvider client={QUERY_CLIENT}>
         <WindowContextProvider>
-            <BrowserRouter>
-          {/*<UserContextProvider>*/}
-              <Routes>
-                <Route path="/" element={<Main />} />
-                <Route path="/transaction" element={<Transaction />} />
-              </Routes>
-          {/*</UserContextProvider>*/}
-            </BrowserRouter>
-            <GlobalStyled />
-            <Toaster />
+          <BrowserRouter>
+            {/*<UserContextProvider>*/}
+            <Routes>
+              <Route path="/" element={<Main />} />
+              <Route path="/transaction" element={<Transaction />} />
+            </Routes>
+            {/*</UserContextProvider>*/}
+          </BrowserRouter>
+          <GlobalStyled />
+          <Toaster />
         </WindowContextProvider>
       </QueryClientProvider>
     </ThemeProvider>
