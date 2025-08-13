@@ -240,7 +240,9 @@ const InfoInput = styled.div<{ isError?: boolean }>(
       input {
         width: 100%;
         height: 100%;
-        border: 1px solid ${isError !== undefined && isError ? "red" : "oklch(92.2% 0 0)"};
+        border: 1px solid ${
+          isError !== undefined && isError ? "red" : "oklch(92.2% 0 0)"
+        };
         padding: 6px 8px;
         font-size: 14px;
 
