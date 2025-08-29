@@ -37,27 +37,31 @@ export function GlobalStyled() {
           text-rendering: optimizeLegibility;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
+          box-sizing: border-box;
+          width: 100%;
+          overflow: hidden;
         }
 
         body {
           margin: 0;
           display: flex;
           place-items: center;
-          min-width: 320px;
-          min-height: 100vh;
           color: ${theme.mode.textPrimary};
           background-color: ${theme.mode.bodyBackground};
+
+          box-sizing: border-box;
         }
 
         button {
-          border-radius: 8px;
+          border-radius: ${theme.borderRadius.softBox};
           border: 1px solid transparent;
-          padding: 0.6em 1.2em;
-          font-size: 1em;
           font-weight: 500;
-          font-family: inherit;
-          background-color: #1a1a1a;
+          font-family: ${theme.mode.font.component.itemDescription};
           transition: border-color 0.25s;
+        }
+
+        main {
+          box-sizing: border-box;
         }
       `}
     />
