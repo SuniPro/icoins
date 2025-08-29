@@ -24,6 +24,34 @@ interface InitOptions {
   allowStatus?: number[];
 }
 
+export async function getFromCryptoTrackerServer(
+  url: string,
+  init: InitOptions = { skipError: false },
+): Promise<AxiosResponse> {
+  const server = import.meta.env.VITE_CRYPTO_TRACKER_SERVER_PREFIX;
+  const serverUrl = server + url;
+  return axios
+    .get(serverUrl, {
+      headers: { "Content-Type": "application/json" },
+    })
+    .then((response) => responseHandler(response, serverUrl, init))
+    .catch(errorHandler);
+}
+
+export async function getFromEmployeeServer(
+  url: string,
+  init: InitOptions = { skipError: false },
+) {
+  const server = import.meta.env.VITE_EMPLOYEE_SERVER_PREFIX;
+  const serverUrl = server + url;
+  return axios
+    .get(serverUrl, {
+      headers: { "Content-Type": "application/json" },
+    })
+    .then((response) => responseHandler(response, serverUrl, init))
+    .catch(errorHandler);
+}
+
 export async function getFromUserServer(
   url: string,
   init: InitOptions = { skipError: false },
@@ -48,7 +76,9 @@ export async function postToUserServer(
   const serverUrl = server + url;
   return axios
     .post(serverUrl, param, {
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
     .catch(errorHandler)
     .then((response) => responseHandler(response, serverUrl, init));

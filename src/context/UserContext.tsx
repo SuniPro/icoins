@@ -1,33 +1,29 @@
-import { createContext, ReactNode, useContext, useEffect } from "react";
+import { getUserInfo, refreshToken } from "@/api/auth";
+import { UserInfoType } from "@/model/user";
 import { useQuery } from "@tanstack/react-query";
-import { me } from "../api/sign";
-import { useNavigate } from "react-router-dom";
-import { UserType } from "../model/user";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 
 const UserContext = createContext<{
-  user: UserType | null;
+  user: UserInfoType | null;
   isLoading: boolean;
   isError: boolean;
 } | null>(null);
 
 export function UserContextProvider({ children }: { children: ReactNode }) {
-  const navigate = useNavigate();
   const {
     data: user,
     isLoading,
     isError,
-  } = useQuery<UserType | null>({
-    queryKey: ["me"],
-    queryFn: () => me(),
-    refetchInterval: 5000,
+  } = useQuery<UserInfoType | null>({
+    queryKey: ["getUserInfo"],
+    queryFn: () => getUserInfo(),
+    refetchInterval: 60000,
     retry: false,
   });
 
   useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
+    refreshToken().then();
+  }, [isError]);
 
   return (
     <UserContext.Provider value={{ user: user ?? null, isLoading, isError }}>

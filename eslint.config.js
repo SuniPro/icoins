@@ -83,6 +83,7 @@ export default [
           args: "all",
           caughtErrors: "all",
           argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
         },
       ],
       "security/detect-object-injection": "warn", // 객체 프로퍼티 인젝션 감지

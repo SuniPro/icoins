@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { useDarkMode } from "usehooks-ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@emotion/react";
-import { darkTheme, defaultTheme } from "./Styles/theme";
 import { WindowContextProvider } from "./context/WindowContext";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Main } from "./page/Main";
 import { GlobalStyled } from "./components/layouts/Frames/FrameLayouts";
 import { Toaster } from "react-hot-toast";
-import { Transaction } from "./page/Transaction";
+import { Provider } from "./provider";
+import { Main } from "./page/Main";
+import { darkTheme, defaultTheme } from "./styles/theme";
+import { UserContextProvider } from "./context/UserContext";
 
 const QUERY_CLIENT = new QueryClient();
 
@@ -26,12 +27,13 @@ function App() {
       <QueryClientProvider client={QUERY_CLIENT}>
         <WindowContextProvider>
           <BrowserRouter>
-            {/*<UserContextProvider>*/}
-            <Routes>
-              <Route path="/" element={<Main />} />
-              <Route path="/transaction" element={<Transaction />} />
-            </Routes>
-            {/*</UserContextProvider>*/}
+            <Provider>
+              <UserContextProvider>
+                <Routes>
+                  <Route path="/" element={<Main />} />
+                </Routes>
+              </UserContextProvider>
+            </Provider>
           </BrowserRouter>
           <GlobalStyled />
           <Toaster />
@@ -40,4 +42,5 @@ function App() {
     </ThemeProvider>
   );
 }
+
 export default App;

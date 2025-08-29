@@ -77,7 +77,6 @@ const borderRadius = {
 
 const colors = {
   white: "#FFFFFF",
-  brightGray: "#ededed",
   lotion: "#fdfdfd",
   black: "#000000",
   gray: "#979797",
@@ -107,6 +106,7 @@ const colors = {
   steelGray: "#A0A0A0",
   graniteGray: "#606060",
   softWhiteGray: "#F2F2F2", // 기존 whiteGray
+  brightGray: "#E6EEF3",
   lightGray: "#B0B0B0",
 
   // ✅ Accent Colors
@@ -149,7 +149,7 @@ const colors = {
 
 const defaultMode = {
   // 배경
-  bodyBackground: colors.brightGray,
+  bodyBackground: colors.snowGray,
   contentBackground: colors.white,
   cardBackground: colors.white,
 
@@ -159,14 +159,15 @@ const defaultMode = {
   textAccent: colors.azure, // ✅ 여기
   textDisable: colors.steelGray,
 
-  textReverse: colors.white,
-
   error: colors.warningRed,
 
   // 버튼
   buttonBackground: colors.white,
   buttonHoverBackground: colors.trueBlue,
   buttonText: colors.black,
+
+  buttonActive: colors.trueBlue,
+  buttonIsActive: colors.ashGray,
 
   // 링크
   linkColor: colors.azure,
@@ -202,14 +203,9 @@ const defaultMode = {
   footerBackground: colors.midnightBlack,
   footerText: colors.lightGray,
 
-  logo: {
-    color: colors.azure,
-    font: fontStyle.iBrand,
-  },
-
   // 폰트는 그대로 유지
   font: {
-    title: fontStyle.sCoreDreamExtraBold,
+    logo: fontStyle.iBrand,
     header: {
       menuItem: fontStyle.koPubDotumBold,
       user: fontStyle.nanumGothic,
@@ -223,8 +219,8 @@ const defaultMode = {
     search: fontStyle.yesGothicMedium,
     component: {
       mainTitle: fontStyle.koPubDotumBold,
-      itemTitle: fontStyle.yesGothicMedium,
-      itemDescription: fontStyle.yesGothicMedium,
+      itemTitle: fontStyle.koPubDotumBold,
+      itemDescription: fontStyle.koPubDotumMedium,
     },
     dynamicIsland: {
       stateView: fontStyle.yesGothicExtraBold,
@@ -252,14 +248,15 @@ const darkMode = {
   textAccent: colors.azure, // ✅ 여기
   textDisable: colors.steelGray,
 
-  textReverse: colors.black,
-
   success: colors.successGreen,
   warning: colors.warningRed,
 
   buttonBackground: colors.azure,
   buttonHoverBackground: colors.trueBlue,
   buttonText: colors.white,
+
+  buttonActive: colors.trueBlue,
+  buttonIsActive: colors.ashGray,
 
   linkColor: colors.azure,
   linkHover: colors.bleuDeFrance,
@@ -278,13 +275,8 @@ const darkMode = {
 
   hoverEffect: colors.azureOpacity30,
 
-  logo: {
-    color: colors.azure,
-    font: fontStyle.iBrand,
-  },
-
   font: {
-    title: fontStyle.sCoreDreamExtraBold,
+    logo: fontStyle.iBrand,
     header: {
       menuItem: fontStyle.yesGothicExtraBold,
       user: fontStyle.appleNeoBold,
@@ -299,7 +291,7 @@ const darkMode = {
     component: {
       mainTitle: fontStyle.montserrat,
       itemTitle: fontStyle.nanumGothic,
-      itemDescription: fontStyle.yesGothicMedium,
+      itemDescription: fontStyle.koPubDotumMedium,
     },
     dynamicIsland: {
       stateView: fontStyle.yesGothicExtraBold,

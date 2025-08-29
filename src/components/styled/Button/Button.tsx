@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { ReactElement } from "react";
 import { FuncIconItemProps, FuncItemProps } from "./ButtonPropsType";
 import { css, Theme, useTheme } from "@emotion/react";
+import { Button } from "@heroui/react";
 
 export function FuncItem(props: FuncItemProps): ReactElement {
   const { className, label, func, isActive, ...other } = props;
@@ -11,8 +12,10 @@ export function FuncItem(props: FuncItemProps): ReactElement {
     <StyledFuncButton
       theme={theme}
       className={className}
-      onClick={func}
-      isActive={isActive}
+      onPress={func}
+      backgroundColor={
+        isActive ? theme.mode.buttonActive : theme.mode.buttonIsActive
+      }
       {...other}
     >
       {label}
@@ -36,23 +39,14 @@ export function FuncIconItem(props: FuncIconItemProps) {
   );
 }
 
-export const StyledFuncButton = styled.button<{
-  isActive?: boolean;
-  inActiveBackgroundColor?: string;
-  activeBackgroundColor?: string;
+export const StyledFuncButton = styled(Button)<{
+  backgroundColor?: string;
   theme: Theme;
 }>(
-  ({
-    isActive,
-    theme,
-    activeBackgroundColor = theme.mode.buttonHoverBackground,
-    inActiveBackgroundColor = theme.mode.buttonBackground,
-  }) => css`
-    background-color: ${isActive
-      ? activeBackgroundColor
-      : inActiveBackgroundColor};
+  ({ backgroundColor, theme }) => css`
+    background-color: ${backgroundColor};
 
-    color: ${theme.mode.buttonText};
+    color: white;
 
     margin: 0;
     padding: 0.6em 1.2em;
@@ -63,9 +57,7 @@ export const StyledFuncButton = styled.button<{
     justify-content: center;
 
     &:hover {
-      background: ${activeBackgroundColor
-        ? activeBackgroundColor
-        : theme.mode.buttonHoverBackground};
+      background: ${theme.mode.buttonHoverBackground};
     }
 
     &:active {
