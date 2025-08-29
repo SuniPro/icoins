@@ -1,3 +1,6 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+
 export function MessageCircleIcon(props: { className?: string }) {
   return (
     <svg
@@ -13,80 +16,6 @@ export function MessageCircleIcon(props: { className?: string }) {
       strokeLinejoin="round"
     >
       <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-    </svg>
-  );
-}
-
-export function GlobalIcon(props: { className?: string }) {
-  return (
-    <svg
-      className={props.className}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="10"></circle>
-      <line x1="2" y1="12" x2="22" y2="12"></line>
-      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-    </svg>
-  );
-}
-
-export function DiceIcon(props: { className?: string }) {
-  return (
-    <svg
-      className={props.className}
-      fill="#000000"
-      width="800px"
-      height="800px"
-      viewBox="0 -64 640 640"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M592 192H473.26c12.69 29.59 7.12 65.2-17 89.32L320 417.58V464c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48V240c0-26.51-21.49-48-48-48zM480 376c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm-46.37-186.7L258.7 14.37c-19.16-19.16-50.23-19.16-69.39 0L14.37 189.3c-19.16 19.16-19.16 50.23 0 69.39L189.3 433.63c19.16 19.16 50.23 19.16 69.39 0L433.63 258.7c19.16-19.17 19.16-50.24 0-69.4zM96 248c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z" />
-    </svg>
-  );
-}
-
-export function LeftArrowIcon(props: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={props.className}
-    >
-      <polyline points="15 18 9 12 15 6"></polyline>
-    </svg>
-  );
-}
-
-export function RightArrowIcon(props: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={props.className}
-    >
-      <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   );
 }
@@ -111,108 +40,249 @@ export function HomeIcon(props: { className?: string }) {
   );
 }
 
-export function TrumpIcon(props: { className?: string }) {
-  return (
-    <svg
-      className={props.className}
-      height="24px"
-      width="24px"
-      version="1.1"
-      id="Capa_1"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-      viewBox="0 0 297 297"
-      xmlSpace="preserve"
-    >
-      <g>
-        <polygon points="88.57,41 84.496,54 92.758,54 88.706,41 	" />
-        <path
-          d="M255.5,20c0-11.046-8.954-20-20-20h-174c-11.046,0-20,8.954-20,20v257c0,11.046,8.954,20,20,20h174
-		c11.046,0,20-8.954,20-20V20z M94.379,59H82.875l-2.229,7h-6.641l11.278-33h6.731l11.232,33h-6.641L94.379,59z M179.826,182.298
-		c-10.133,3.238-19.307,0.113-25.128-5.942c0.457,8.457,1.704,18.841,4.947,24.645H138.02c3.243-5.804,4.49-16.188,4.947-24.645
-		c-5.821,6.056-14.996,9.181-25.128,5.942c-17.925-5.729-36.695-44.207,30.993-87.401
-		C216.522,138.091,197.752,176.568,179.826,182.298z M217.107,264l-2.229-7h-11.504l-2.229,7h-6.641l11.278-33h6.731l11.232,33
-		H217.107z"
-        />
-        <polygon points="209.07,239 204.996,252 213.258,252 209.206,239 	" />
-      </g>
-    </svg>
-  );
-}
+export const EyeSlashFilledIcon = (props: { className: string }) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    focusable="false"
+    height="1em"
+    role="presentation"
+    viewBox="0 0 24 24"
+    width="1em"
+    className={props.className}
+  >
+    <path
+      d="M21.2714 9.17834C20.9814 8.71834 20.6714 8.28834 20.3514 7.88834C19.9814 7.41834 19.2814 7.37834 18.8614 7.79834L15.8614 10.7983C16.0814 11.4583 16.1214 12.2183 15.9214 13.0083C15.5714 14.4183 14.4314 15.5583 13.0214 15.9083C12.2314 16.1083 11.4714 16.0683 10.8114 15.8483C10.8114 15.8483 9.38141 17.2783 8.35141 18.3083C7.85141 18.8083 8.01141 19.6883 8.68141 19.9483C9.75141 20.3583 10.8614 20.5683 12.0014 20.5683C13.7814 20.5683 15.5114 20.0483 17.0914 19.0783C18.7014 18.0783 20.1514 16.6083 21.3214 14.7383C22.2714 13.2283 22.2214 10.6883 21.2714 9.17834Z"
+      fill="currentColor"
+    />
+    <path
+      d="M14.0206 9.98062L9.98062 14.0206C9.47062 13.5006 9.14062 12.7806 9.14062 12.0006C9.14062 10.4306 10.4206 9.14062 12.0006 9.14062C12.7806 9.14062 13.5006 9.47062 14.0206 9.98062Z"
+      fill="currentColor"
+    />
+    <path
+      d="M18.25 5.74969L14.86 9.13969C14.13 8.39969 13.12 7.95969 12 7.95969C9.76 7.95969 7.96 9.76969 7.96 11.9997C7.96 13.1197 8.41 14.1297 9.14 14.8597L5.76 18.2497H5.75C4.64 17.3497 3.62 16.1997 2.75 14.8397C1.75 13.2697 1.75 10.7197 2.75 9.14969C3.91 7.32969 5.33 5.89969 6.91 4.91969C8.49 3.95969 10.22 3.42969 12 3.42969C14.23 3.42969 16.39 4.24969 18.25 5.74969Z"
+      fill="currentColor"
+    />
+    <path
+      d="M14.8581 11.9981C14.8581 13.5681 13.5781 14.8581 11.9981 14.8581C11.9381 14.8581 11.8881 14.8581 11.8281 14.8381L14.8381 11.8281C14.8581 11.8881 14.8581 11.9381 14.8581 11.9981Z"
+      fill="currentColor"
+    />
+    <path
+      d="M21.7689 2.22891C21.4689 1.92891 20.9789 1.92891 20.6789 2.22891L2.22891 20.6889C1.92891 20.9889 1.92891 21.4789 2.22891 21.7789C2.37891 21.9189 2.56891 21.9989 2.76891 21.9989C2.96891 21.9989 3.15891 21.9189 3.30891 21.7689L21.7689 3.30891C22.0789 3.00891 22.0789 2.52891 21.7689 2.22891Z"
+      fill="currentColor"
+    />
+  </svg>
+);
 
-export function LotteryIcon(props: { className?: string }) {
-  return (
-    <svg
-      className={props.className}
-      fill="#000000"
-      height="25px"
-      width="25px"
-      version="1.1"
-      id="Capa_1"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlnsXlink="http://www.w3.org/1999/xlink"
-      viewBox="0 0 477.778 477.778"
-      xmlSpace="preserve"
-    >
-      <g>
-        <path
-          d="M238.889,0C106.955,0,0,106.955,0,238.889s106.955,238.889,238.889,238.889c131.934,0,238.889-106.955,238.889-238.889
-		S370.823,0,238.889,0z M238.889,368.948c-71.823,0-130.051-58.228-130.051-130.059c0-71.831,58.228-130.059,130.051-130.059
-		c71.823,0,130.051,58.228,130.051,130.059C368.94,310.72,310.712,368.948,238.889,368.948z"
-        />
-        <path
-          d="M267.07,232.194v-0.957c25.491-12.107,34.093-30.903,34.093-48.423c0-25.809-20.079-50.974-60.221-50.974
-		c-36.316,0-64.03,22.295-64.03,55.112c0,17.839,9.876,35.685,32.815,46.518l0.312,0.956c-25.475,10.833-41.09,29.31-41.09,55.43
-		c0,30.266,26.128,56.075,69.458,56.075c39.504,0,70.407-24.215,70.407-60.213C308.813,260.547,292.871,242.388,267.07,232.194z
-		 M203.352,185.039c0-17.84,12.752-33.128,36.004-33.128c25.165,0,35.04,17.202,35.04,33.765c0,18.804-13.703,31.541-31.541,37.598
-		C218.966,216.897,203.352,205.746,203.352,185.039z M239.029,325.54c-26.44,0-42.366-18.484-41.401-39.504
-		c0-19.759,13.048-35.685,37.264-42.691c28.042,7.963,45.554,20.07,45.554,45.234C280.446,309.925,264.208,325.54,239.029,325.54z"
-        />
-      </g>
-    </svg>
-  );
-}
+export const EyeFilledIcon = (props: { className: string }) => (
+  <svg
+    aria-hidden="true"
+    fill="none"
+    focusable="false"
+    height="1em"
+    role="presentation"
+    viewBox="0 0 24 24"
+    width="1em"
+    className={props.className}
+  >
+    <path
+      d="M21.25 9.14969C18.94 5.51969 15.56 3.42969 12 3.42969C10.22 3.42969 8.49 3.94969 6.91 4.91969C5.33 5.89969 3.91 7.32969 2.75 9.14969C1.75 10.7197 1.75 13.2697 2.75 14.8397C5.06 18.4797 8.44 20.5597 12 20.5597C13.78 20.5597 15.51 20.0397 17.09 19.0697C18.67 18.0897 20.09 16.6597 21.25 14.8397C22.25 13.2797 22.25 10.7197 21.25 9.14969ZM12 16.0397C9.76 16.0397 7.96 14.2297 7.96 11.9997C7.96 9.76969 9.76 7.95969 12 7.95969C14.24 7.95969 16.04 9.76969 16.04 11.9997C16.04 14.2297 14.24 16.0397 12 16.0397Z"
+      fill="currentColor"
+    />
+    <path
+      d="M11.9984 9.14062C10.4284 9.14062 9.14844 10.4206 9.14844 12.0006C9.14844 13.5706 10.4284 14.8506 11.9984 14.8506C13.5684 14.8506 14.8584 13.5706 14.8584 12.0006C14.8584 10.4306 13.5684 9.14062 11.9984 9.14062Z"
+      fill="currentColor"
+    />
+  </svg>
+);
 
-export function SearchIcon(props: {
-  className?: string;
-  width: number;
-  height: number;
-}) {
-  const { className, width, height } = props;
+export function SuccessIcon(props: { className?: string }) {
   return (
-    <>
+    <div
+      className={props.className}
+      css={css`
+        .success-animation {
+          margin: 150px auto;
+        }
+
+        .checkmark {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          display: block;
+          stroke-width: 2;
+          stroke: #4bb71b;
+          stroke-miterlimit: 10;
+          box-shadow: inset 0px 0px 0px #4bb71b;
+          animation:
+            fill 0.4s ease-in-out 0.4s forwards,
+            scale 0.3s ease-in-out 0.9s both;
+          position: relative;
+          top: 5px;
+          right: 5px;
+          margin: 0 auto;
+        }
+
+        .checkmark__circle {
+          stroke-dasharray: 166;
+          stroke-dashoffset: 166;
+          stroke-width: 2;
+          stroke-miterlimit: 10;
+          stroke: #4bb71b;
+          fill: #fff;
+          animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .checkmark__check {
+          transform-origin: 50% 50%;
+          stroke-dasharray: 48;
+          stroke-dashoffset: 48;
+          animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+
+        @keyframes stroke {
+          100% {
+            stroke-dashoffset: 0;
+          }
+        }
+
+        @keyframes scale {
+          0%,
+          100% {
+            transform: none;
+          }
+
+          50% {
+            transform: scale3d(1.1, 1.1, 1);
+          }
+        }
+
+        @keyframes fill {
+          100% {
+            box-shadow: inset 0px 0px 0px 30px #4bb71b;
+          }
+        }
+      `}
+    >
       <svg
-        className={className}
-        width={width}
-        height={height}
-        viewBox="0 0 24 24"
+        className="checkmark"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 52 52"
       >
+        <circle
+          className="checkmark__circle"
+          cx="26"
+          cy="26"
+          r="25"
+          fill="none"
+        />
         <path
-          fill="#666666"
-          d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
+          className="checkmark__check"
+          fill="none"
+          d="M14.1 27.2l7.1 7.2 16.7-16.8"
         />
       </svg>
-    </>
+    </div>
   );
 }
 
-export function SendIcon(props: { className?: string }) {
+export function SendingIcon(props: { className?: string }) {
   return (
     <svg
       className={props.className}
-      width="24px"
-      height="24px"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="xMidYMid"
+      width="200"
+      height="200"
+      style={{
+        shapeRendering: "auto",
+        display: "auto",
+        background: "transparent",
+      }}
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
+      <g>
+        <circle
+          strokeWidth="2"
+          stroke="rgba(148, 219, 242, 0.76)"
+          fill="none"
+          r="0"
+          cy="50"
+          cx="50"
+        >
+          <animate
+            begin="0s"
+            calcMode="spline"
+            keySplines="0 0.2 0.8 1"
+            keyTimes="0;1"
+            values="0;40"
+            dur="1s"
+            repeatCount="indefinite"
+            attributeName="r"
+          ></animate>
+          <animate
+            begin="0s"
+            calcMode="spline"
+            keySplines="0.2 0 0.8 1"
+            keyTimes="0;1"
+            values="1;0"
+            dur="1s"
+            repeatCount="indefinite"
+            attributeName="opacity"
+          ></animate>
+        </circle>
+        <circle
+          strokeWidth="2"
+          stroke="#037aed"
+          fill="none"
+          r="0"
+          cy="50"
+          cx="50"
+        >
+          <animate
+            begin="-0.5s"
+            calcMode="spline"
+            keySplines="0 0.2 0.8 1"
+            keyTimes="0;1"
+            values="0;40"
+            dur="1s"
+            repeatCount="indefinite"
+            attributeName="r"
+          ></animate>
+          <animate
+            begin="-0.5s"
+            calcMode="spline"
+            keySplines="0.2 0 0.8 1"
+            keyTimes="0;1"
+            values="1;0"
+            dur="1s"
+            repeatCount="indefinite"
+            attributeName="opacity"
+          ></animate>
+        </circle>
+        <g></g>
+      </g>
+    </svg>
+  );
+}
+
+export function WalletIcon(props: { className?: string }) {
+  return (
+    <svg
+      className={`${props.className} lucide lucide-wallet-icon lucide-wallet`}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
-      <path
-        d="M22 2L2 8.66667L11.5833 12.4167M22 2L15.3333 22L11.5833 12.4167M22 2L11.5833 12.4167"
-        stroke="#000000"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
+      <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
     </svg>
   );
 }
