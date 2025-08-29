@@ -1,48 +1,51 @@
 import {
-  ExchangeInfoType,
-  TetherAccountAndDepositType,
-  TetherAccountType,
-  TetherCreateRequestType,
-  TetherDepositRequestType,
-  TetherDepositType,
+  CryptoAccountAndDeposit,
+  CryptoAccountType,
+  CryptoCreateRequestType,
+  CryptoDepositRequestType,
+  CryptoDepositType,
+  ExchangeInfo,
 } from "../model/financial";
 import {
+  getFromCryptoTrackerServer,
   getFromUserServer,
   patchToUserServer,
   postToUserServer,
   putToUserServer,
 } from "./base";
-import axios from "axios";
-import { ErrorAlert } from "../components/Alert/Alerts";
 
-export async function getExchangeInfo(): Promise<number> {
-  const response = await getFromUserServer("/financial/exchange");
+export async function getExchangeInfo(
+  cryptoType: "USDT" | "BTC" | "ETH",
+): Promise<ExchangeInfo> {
+  const response = await getFromCryptoTrackerServer(
+    `exchange/get?cryptoType=${cryptoType}`,
+  );
 
   return response.data;
 }
 
-export async function getTetherAccountByEmail(
+export async function getCryptoAccountByEmail(
   email: string,
-): Promise<TetherAccountType> {
+): Promise<CryptoAccountType> {
   const response = await getFromUserServer(
-    `/financial/tether/get/account/by/email/${email}`,
+    `/financial/crypto/get/account/by/email/${email}`,
   );
   return response.data;
 }
 
-export async function createOrFindTetherAccount(
-  tetherCreateRequest: TetherCreateRequestType,
-): Promise<TetherAccountAndDepositType> {
+export async function createOrFindCryptoAccount(
+  cryptoCreateRequest: CryptoCreateRequestType,
+): Promise<CryptoAccountAndDeposit> {
   const response = await putToUserServer(
-    "/financial/tether/create",
-    tetherCreateRequest,
+    "/financial/crypto/create",
+    cryptoCreateRequest,
   );
   return response.data;
 }
 
 export async function updateTetherWallet(
   tetherWallet: string,
-): Promise<TetherAccountType> {
+): Promise<CryptoAccountType> {
   const response = await patchToUserServer(
     "/financial/tether/update/wallet",
     tetherWallet,
@@ -50,37 +53,31 @@ export async function updateTetherWallet(
   return response.data;
 }
 
-export async function depositRequest(
-  depositRequest: TetherDepositRequestType,
-): Promise<TetherDepositType> {
+export async function createCryptoDeposit(
+  depositRequest: CryptoDepositRequestType,
+): Promise<CryptoDepositType> {
+  console.log(depositRequest);
   const response = await postToUserServer(
-    "/financial/tether/create/deposit",
+    "/financial/crypto/create/deposit",
     depositRequest,
   );
   return response.data;
 }
 
 export async function getLatestDepositByWallet(
-  tetherWallet: string,
-): Promise<TetherDepositType> {
+  cryptoWallet: string,
+): Promise<CryptoDepositType> {
   const response = await getFromUserServer(
-    `/financial/tether/get/deposit/by/tether/wallet/${tetherWallet}`,
+    `/financial/crypto/get/deposit/by/crypto/wallet/${cryptoWallet}`,
   );
+
   return response.data;
 }
 
-export async function getUsdToKrwRate(): Promise<ExchangeInfoType> {
-  try {
-    const response = await axios.get("https://api.frankfurter.app/latest", {
-      params: {
-        from: "USD",
-        to: "KRW",
-      },
-    });
-
-    return response.data;
-  } catch {
-    ErrorAlert("환율 조회에 실패하였습니다.");
-    return null as unknown as ExchangeInfoType;
-  }
+export async function depositRequest(id: number): Promise<CryptoDepositType> {
+  const response = await patchToUserServer(
+    "/financial/crypto/request/deposit",
+    id,
+  );
+  return response.data;
 }
