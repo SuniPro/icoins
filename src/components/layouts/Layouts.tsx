@@ -1,39 +1,45 @@
 import { css, Theme, useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
-import Badge, { badgeClasses } from "@mui/material/Badge";
 import { ReactNode } from "react";
 import { Container } from "./Frames/FrameLayouts";
 
-export function HorizontalDivider(props: {
-  width: number;
-  className?: string;
-}) {
-  const { className, width } = props;
-  const theme = useTheme();
-  return <Line className={className} theme={theme} width={width}></Line>;
-}
-
-const Line = styled.div<{ theme: Theme; width: number }>(
-  ({ theme, width }) => css`
-    width: ${width}%;
-    border-bottom: 1px solid ${theme.mode.textSecondary};
+export const HeadLine = styled.h1<{ theme: Theme; textAlign?: string }>(
+  ({ theme, textAlign = "left" }) => css`
+    text-align: ${textAlign};
+    font-size: 16px;
+    font-weight: 600;
+    font-family: ${theme.mode.font.component.itemTitle};
   `,
 );
 
-export const StyledBadge = styled(Badge)`
-  & .${badgeClasses.badge} {
-    font-size: 12px;
-    position: absolute;
-    top: -12px;
-    right: -12px;
-  }
-`;
+export function CardContainer({ children }: { children: ReactNode }) {
+  return (
+    <div className="h-full w-full flex flex-col items-center p-2 box-border">
+      {children}
+    </div>
+  );
+}
+
+export const Card = styled.div<{ theme: Theme }>(
+  ({ theme }) => css`
+    width: 100%;
+    padding: 30px 28px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    margin: 0 8px;
+
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    border-radius: ${theme.borderRadius.roundedBox};
+  `,
+);
 
 export const ContentsContainer = styled(Container)`
   width: 90%;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 14px;
 `;
 
