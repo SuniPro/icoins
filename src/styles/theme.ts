@@ -149,7 +149,7 @@ const colors = {
 
 const defaultMode = {
   // 배경
-  bodyBackground: colors.lotion,
+  bodyBackground: colors.snowGray,
   contentBackground: colors.white,
   cardBackground: colors.white,
 
@@ -165,6 +165,9 @@ const defaultMode = {
   buttonBackground: colors.white,
   buttonHoverBackground: colors.trueBlue,
   buttonText: colors.black,
+
+  buttonActive: colors.trueBlue,
+  buttonIsActive: colors.ashGray,
 
   // 링크
   linkColor: colors.azure,
@@ -217,7 +220,7 @@ const defaultMode = {
     component: {
       mainTitle: fontStyle.koPubDotumBold,
       itemTitle: fontStyle.koPubDotumBold,
-      itemDescription: fontStyle.yesGothicMedium,
+      itemDescription: fontStyle.koPubDotumMedium,
     },
     dynamicIsland: {
       stateView: fontStyle.yesGothicExtraBold,
@@ -252,6 +255,9 @@ const darkMode = {
   buttonHoverBackground: colors.trueBlue,
   buttonText: colors.white,
 
+  buttonActive: colors.trueBlue,
+  buttonIsActive: colors.ashGray,
+
   linkColor: colors.azure,
   linkHover: colors.bleuDeFrance,
 
@@ -285,7 +291,7 @@ const darkMode = {
     component: {
       mainTitle: fontStyle.montserrat,
       itemTitle: fontStyle.nanumGothic,
-      itemDescription: fontStyle.yesGothicMedium,
+      itemDescription: fontStyle.koPubDotumMedium,
     },
     dynamicIsland: {
       stateView: fontStyle.yesGothicExtraBold,
