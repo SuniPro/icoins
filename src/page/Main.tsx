@@ -1,40 +1,109 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { ContentsContainer } from "../components/layouts/Layouts";
-import { Logo, LogoContainer } from "../components/Logo/Logo";
 import { css, keyframes, Theme, useTheme } from "@emotion/react";
-import { InteractiveForm } from "../components/Form/InteractiveForm";
-import { useWindowContext } from "../context/WindowContext";
-import { useProportionHook } from "../hooks/useWindowHooks";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import Pager from "../components/Transition/Pager";
+import { Logo, LogoContainer } from "@/components/Logo";
+import { InfoWrite } from "@/procedure/InfoWrite";
+import ExchangeCheck from "@/procedure/ExchangeCheck";
+import { DepositRequest } from "@/procedure/DepositRequest";
+import { ExchangeContextProvider } from "@/context/ExchangeContext";
+import { DepositCheck } from "@/procedure/DepositCheck";
+import { CryptoType } from "@/model/financial";
+import { DepositApproval } from "@/procedure/DepositApproval";
+import { useQuery } from "@tanstack/react-query";
+import { useUserContext } from "@/context/UserContext";
+import { getLatestDepositByWallet } from "@/api/financial";
+import { SuccessAlert } from "@/components/Alert";
+import { useWindowContext } from "@/context/WindowContext";
+
+export interface IndexStateProps {
+  state: number;
+  setState: Dispatch<SetStateAction<number>>;
+}
 
 const fadeUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 `;
+
+export const amountRound = (cryptoType: CryptoType, amount: BigNumber) => {
+  if (cryptoType === "USDT") {
+    return amount.toFixed(2);
+  } else {
+    return amount.toString();
+  }
+};
 
 export function Main() {
   const theme = useTheme();
+  const { user } = useUserContext();
+
+  const [state, setState] = useState(0);
+
   const { windowWidth } = useWindowContext();
 
-  const { size } = useProportionHook(windowWidth, 600, theme.windowSize.tablet);
+  const mainWidth = windowWidth < theme.windowSize.tablet ? windowWidth : 600;
+
+  const { data: depositFromServer } = useQuery({
+    queryKey: ["getLatestDepositByWallet", user],
+    queryFn: () => getLatestDepositByWallet(user!.cryptoWallet),
+    enabled: Boolean(user),
+    refetchInterval: 600000,
+  });
+
+  useEffect(() => {
+    if (!depositFromServer) return;
+    if (!depositFromServer.isSend && depositFromServer.status === "CONFIRMED") {
+      SuccessAlert("승인 대기 중인 요청이 있습니다.");
+      setState(4);
+    } else if (
+      !depositFromServer.isSend &&
+      depositFromServer.status === "PENDING"
+    ) {
+      SuccessAlert("입금이 진행되지 않은 거래내역이 있습니다.");
+      setState(3);
+    }
+  }, [depositFromServer]);
+
   return (
-    <MainContainer width={size}>
-      <LogoContainer width={300} height={140}>
-        <Logo fontSize={80} />
-        <SubjectTitle theme={theme}>
-          오직 당신을 위한 프라이빗 안전거래 시스템
-        </SubjectTitle>
-      </LogoContainer>
-      <StyledContentsContainer>
-        <InteractiveForm windowWidth={windowWidth} />
-      </StyledContentsContainer>
-    </MainContainer>
+    <ExchangeContextProvider>
+      <MainContainer width={mainWidth}>
+        <LogoContainer width={300} height={140}>
+          <Logo fontSize={80} />
+          <SubjectTitle theme={theme}>
+            오직 당신을 위한 프라이빗 안전거래 시스템
+          </SubjectTitle>
+        </LogoContainer>
+        <StyledContentsContainer>
+          <Pager state={state}>
+            <InfoWrite indexState={{ state, setState }} user={user} />
+            {user && (
+              <ExchangeCheck indexState={{ state, setState }} user={user} />
+            )}
+            <DepositRequest indexState={{ state, setState }} />
+            <DepositCheck
+              indexState={{ state, setState }}
+              deposit={depositFromServer}
+            />
+            {depositFromServer && (
+              <DepositApproval
+                indexState={{ state, setState }}
+                deposit={depositFromServer}
+              />
+            )}
+          </Pager>
+        </StyledContentsContainer>
+        <footer style={{ width: "100%", height: "20px" }}></footer>
+      </MainContainer>
+    </ExchangeContextProvider>
   );
 }
 
@@ -48,16 +117,14 @@ const SubjectTitle = styled.span<{ theme: Theme; fontSize?: number }>(
 const MainContainer = styled.main<{ width: number }>(
   ({ width }) => css`
     width: ${width}px;
-    transform: translateY(1%);
-    height: auto;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
+    overflow: hidden;
+
     ul {
-      padding: 0;
       li {
         text-align: left;
         margin: 0 0 10px;
