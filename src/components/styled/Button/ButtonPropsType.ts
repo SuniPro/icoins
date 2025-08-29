@@ -5,8 +5,6 @@ export interface FuncItemProps {
   label: ReactNode;
   isActive?: boolean;
   func: () => void;
-  inActiveBackgroundColor?: string;
-  activeBackgroundColor?: string;
 }
 
 export interface FuncIconItemProps {
