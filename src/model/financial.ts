@@ -1,59 +1,60 @@
-export interface TetherAccountType {
+import type { BigNumber } from "bignumber.js";
+
+export type ChainType = "TRON" | "ETH" | "BTC";
+export type CryptoType = "USDT" | "ETH" | "BTC";
+
+export interface CryptoAccountType {
   id: number;
-  tetherWallet: string;
+  cryptoWallet: string;
+  chainType: ChainType;
   email: string;
-  virtualWallet: string;
+  site: string;
   insertDateTime: string;
   updateDateTime?: string;
   deleteDateTime?: string;
 }
 
-export interface TetherAccountAndDepositType {
+export interface CryptoAccountAndDeposit {
   id: number;
-  tetherWallet: string;
+  cryptoWallet: string;
   email: string;
-  accepted: boolean | null;
-  acceptedAt: string | null;
-  requestedAt: string | null;
-  insertDateTime: string;
-  updateDateTime?: string;
-  deleteDateTime?: string;
-}
-
-export interface TetherCreateRequestType {
-  email: string;
-  site: string | null;
-  tetherWallet: string;
-}
-
-export interface TetherDepositRequestType {
-  tetherWallet: string;
-  amount: number;
-  usdtAmount: number;
-}
-
-export interface TetherDepositType {
-  id: number;
-  tetherWallet: string;
-  email: string;
-  insertDateTime: string;
-  amount: number;
-  usdtAmount: number;
   accepted: boolean;
   acceptedAt: string;
   requestedAt: string;
+  insertDateTime: string;
+  updateDateTime?: string;
+  deleteDateTime?: string;
+}
+
+export interface CryptoCreateRequestType {
+  cryptoWallet: string;
+  email: string;
+  site: string;
+}
+
+export interface CryptoDepositRequestType {
+  fromAddress: string;
+  toAddress: string;
+  cryptoWallet: string;
+  cryptoType: CryptoType;
+  amount: string;
+  krwAmount: string;
+}
+
+export interface CryptoDepositType {
+  id: number;
+  email: string;
   status: TransactionStatusType;
-}
-
-export interface ExchangeInfoType {
-  amount: number;
-  base: string;
-  date: string;
-  rates: ExchangeRatesType;
-}
-
-interface ExchangeRatesType {
-  KRW: number;
+  chainType: ChainType;
+  cryptoType: CryptoType;
+  fromAddress: string;
+  toAddress: string;
+  amount: string;
+  krwAmount: string;
+  accepted: boolean;
+  acceptedAt: string;
+  requestedAt: string;
+  isSend: boolean;
 }
 
 export const TransactionStatus = [
@@ -76,3 +77,29 @@ export const transactionStatusLabelMap: Record<TransactionStatusType, string> =
     CANCELLED: "반려",
     TIMEOUT: "요청시간 초과",
   };
+
+export interface ExchangeInfo {
+  // 시가 00시 기준
+  opening_price: BigNumber;
+  // 종가 00시 기준
+  closing_price: BigNumber;
+  // 저가 00시 기준
+  min_price: BigNumber;
+  // 고가 00시 기준
+  max_price: BigNumber;
+  // 거래량 00시 기준
+  units_traded: BigNumber;
+  // 거래금액 00시 기준
+  acc_trade_value: BigNumber;
+  // 전일 종가
+  prev_closing_price: BigNumber;
+  // 최근 24시간 거래량
+  units_traded_24H: number;
+  // 최근 24시간 거래금액
+  acc_trade_value_24H: BigNumber;
+  // 최근 24시간 변동가
+  fluctate_24H: BigNumber;
+  // 최근 24시간 변동률
+  fluctate_rate_24H: number;
+  date: number;
+}
