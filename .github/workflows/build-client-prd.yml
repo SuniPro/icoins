@@ -28,22 +28,22 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker buildx build --platform linux/amd64 -t perasperaadastra250225/icoins-client:1.0.0 --push .
+          docker buildx build --platform linux/amd64 -t ariel250225/icoin-client:1.0.0 --push .
 
-      - name: Deploy to EC2 via SSH
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY }}
-          script: |
-            docker pull perasperaadastra250225/icoins-client:1.0.0
-            docker stop icoins-client || true
-            docker rm icoins-client || true
-            docker run -d \
-              -p 80:80 \
-              -p 443:443 \
-              -v /etc/ssl/icointext:/etc/ssl/icointext:ro \
-              --restart unless-stopped \
-              --name icoins-client \
-              perasperaadastra250225/icoins-client:1.0.0
+#      - name: Deploy to EC2 via SSH
+#        uses: appleboy/ssh-action@v1.0.0
+#        with:
+#          host: ${{ secrets.EC2_HOST }}
+#          username: ${{ secrets.EC2_USER }}
+#          key: ${{ secrets.EC2_KEY }}
+#          script: |
+#            docker pull perasperaadastra250225/icoins-client:1.0.0
+#            docker stop icoins-client || true
+#            docker rm icoins-client || true
+#            docker run -d \
+#              -p 80:80 \
+#              -p 443:443 \
+#              -v /etc/ssl/icointext:/etc/ssl/icointext:ro \
+#              --restart unless-stopped \
+#              --name icoins-client \
+#              perasperaadastra250225/icoins-client:1.0.0
