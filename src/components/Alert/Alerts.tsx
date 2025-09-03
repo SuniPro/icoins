@@ -27,7 +27,9 @@ export function CustomConfirmAlert(
   toast.custom(
     (t) => (
       <Card
-        className={`${t.visible ? "animate-custom-enter" : "animate-custom-leave"} max-w-md w-full bg-white pointer-events-auto`}
+        className={`${
+          t.visible ? "animate-custom-enter" : "animate-custom-leave"
+        } max-w-md w-full bg-white pointer-events-auto`}
         theme={theme}
       >
         <div className="w-full flex flex-col gap-4">
