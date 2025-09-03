@@ -18,7 +18,7 @@ export async function getExchangeInfo(
   cryptoType: "USDT" | "BTC" | "ETH",
 ): Promise<ExchangeInfo> {
   const response = await getFromCryptoTrackerServer(
-    `exchange/get?cryptoType=${cryptoType}`,
+    `/exchange/get?cryptoType=${cryptoType}`,
   );
 
   return response.data;
@@ -56,11 +56,18 @@ export async function updateTetherWallet(
 export async function createCryptoDeposit(
   depositRequest: CryptoDepositRequestType,
 ): Promise<CryptoDepositType> {
-  console.log(depositRequest);
   const response = await postToUserServer(
     "/financial/crypto/create/deposit",
     depositRequest,
   );
+  return response.data;
+}
+
+export async function getDepositById(id: number): Promise<CryptoDepositType> {
+  const response = await getFromUserServer(
+    `/financial/crypto/get/deposit/by/${id}`,
+  );
+
   return response.data;
 }
 

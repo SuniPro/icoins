@@ -133,9 +133,13 @@ function ExchangeCheck(props: {
                   color="secondary"
                   className="bg-transparent"
                   key={button.label}
-                  onPress={() =>
-                    handleKrwButtonClick(depositKrw.plus(button.value))
-                  }
+                  onPress={() => {
+                    if (button.value !== 0) {
+                      handleKrwButtonClick(depositKrw.plus(button.value));
+                    } else {
+                      handleKrwButtonClick(new BigNumber(button.value));
+                    }
+                  }}
                   css={css`
                     width: 64px;
                     background-color: #989898 !important;

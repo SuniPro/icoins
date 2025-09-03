@@ -1,28 +1,42 @@
 import { Card, CardContainer, HeadLine } from "@/components/layouts/Layouts";
-import { amountRound, IndexStateProps } from "@/page/Main";
+import {
+  amountRound,
+  DepositProcessingStateProps,
+  IndexStateProps,
+} from "@/page/Main";
 import { useTheme } from "@emotion/react";
 import { Input } from "@heroui/react";
 import { StyledFuncButton } from "@/components/styled/Button/Button";
 import BigNumber from "bignumber.js";
 import { SendingIcon, SuccessIcon } from "@/components/styled/icons";
-import { CryptoDepositType } from "@/model/financial";
+import { getDepositById } from "@/api/financial";
+import { useQuery } from "@tanstack/react-query";
 
 export function DepositApproval(props: {
   indexState: IndexStateProps;
-  deposit: CryptoDepositType;
+  processingDepositState: DepositProcessingStateProps;
 }) {
-  const { deposit } = props;
   const { setState } = props.indexState;
+  const { processingDeposit } = props.processingDepositState;
 
   const theme = useTheme();
 
+  const { data: deposit } = useQuery({
+    queryKey: ["getDepositById"],
+    queryFn: () => getDepositById(processingDeposit!.id),
+    enabled: Boolean(processingDeposit),
+  });
+
   const sendCheck = () => {
+    if (!deposit) return;
     if (deposit.isSend) {
       return <SuccessIcon />;
     } else {
       return <SendingIcon />;
     }
   };
+
+  if (!deposit) return;
 
   return (
     <CardContainer>

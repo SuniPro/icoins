@@ -203,9 +203,13 @@ const defaultMode = {
   footerBackground: colors.midnightBlack,
   footerText: colors.lightGray,
 
+  logo: {
+    color: colors.azure,
+    font: fontStyle.iBrand,
+  },
+
   // 폰트는 그대로 유지
   font: {
-    logo: fontStyle.iBrand,
     header: {
       menuItem: fontStyle.koPubDotumBold,
       user: fontStyle.nanumGothic,
@@ -274,9 +278,12 @@ const darkMode = {
   highlightHover: colors.bleuDeFrance,
 
   hoverEffect: colors.azureOpacity30,
+  logo: {
+    color: colors.azure,
+    font: fontStyle.iBrand,
+  },
 
   font: {
-    logo: fontStyle.iBrand,
     header: {
       menuItem: fontStyle.yesGothicExtraBold,
       user: fontStyle.appleNeoBold,

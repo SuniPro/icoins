@@ -10,7 +10,7 @@ import ExchangeCheck from "@/procedure/ExchangeCheck";
 import { DepositRequest } from "@/procedure/DepositRequest";
 import { ExchangeContextProvider } from "@/context/ExchangeContext";
 import { DepositCheck } from "@/procedure/DepositCheck";
-import { CryptoType } from "@/model/financial";
+import { CryptoDepositType, CryptoType } from "@/model/financial";
 import { DepositApproval } from "@/procedure/DepositApproval";
 import { useQuery } from "@tanstack/react-query";
 import { useUserContext } from "@/context/UserContext";
@@ -21,6 +21,11 @@ import { useWindowContext } from "@/context/WindowContext";
 export interface IndexStateProps {
   state: number;
   setState: Dispatch<SetStateAction<number>>;
+}
+
+export interface DepositProcessingStateProps {
+  processingDeposit: CryptoDepositType | null;
+  setProcessingDeposit: Dispatch<SetStateAction<CryptoDepositType | null>>;
 }
 
 const fadeUp = keyframes`
@@ -47,6 +52,8 @@ export function Main() {
   const { user } = useUserContext();
 
   const [state, setState] = useState(0);
+  const [processingDeposit, setProcessingDeposit] =
+    useState<CryptoDepositType | null>(null);
 
   const { windowWidth } = useWindowContext();
 
@@ -56,18 +63,19 @@ export function Main() {
     queryKey: ["getLatestDepositByWallet", user],
     queryFn: () => getLatestDepositByWallet(user!.cryptoWallet),
     enabled: Boolean(user),
-    refetchInterval: 600000,
   });
 
   useEffect(() => {
     if (!depositFromServer) return;
     if (!depositFromServer.isSend && depositFromServer.status === "CONFIRMED") {
+      setProcessingDeposit(depositFromServer);
       SuccessAlert("승인 대기 중인 요청이 있습니다.");
       setState(4);
     } else if (
       !depositFromServer.isSend &&
       depositFromServer.status === "PENDING"
     ) {
+      setProcessingDeposit(depositFromServer);
       SuccessAlert("입금이 진행되지 않은 거래내역이 있습니다.");
       setState(3);
     }
@@ -88,17 +96,30 @@ export function Main() {
             {user && (
               <ExchangeCheck indexState={{ state, setState }} user={user} />
             )}
-            <DepositRequest indexState={{ state, setState }} />
-            <DepositCheck
+            <DepositRequest
               indexState={{ state, setState }}
-              deposit={depositFromServer}
+              processingDepositState={{
+                processingDeposit,
+                setProcessingDeposit,
+              }}
             />
-            {depositFromServer && (
-              <DepositApproval
+            {user && (
+              <DepositCheck
                 indexState={{ state, setState }}
-                deposit={depositFromServer}
+                user={user}
+                processingDepositState={{
+                  processingDeposit,
+                  setProcessingDeposit,
+                }}
               />
             )}
+            <DepositApproval
+              indexState={{ state, setState }}
+              processingDepositState={{
+                processingDeposit,
+                setProcessingDeposit,
+              }}
+            />
           </Pager>
         </StyledContentsContainer>
         <footer style={{ width: "100%", height: "20px" }}></footer>
