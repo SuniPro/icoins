@@ -2,22 +2,31 @@ import { useTheme } from "@emotion/react";
 import { Card, CardContainer, HeadLine } from "@/components/layouts/Layouts";
 import { Input } from "@heroui/react";
 import { Step } from "./Step";
-import { amountRound, IndexStateProps } from "@/page/Main";
+import {
+  amountRound,
+  DepositProcessingStateProps,
+  IndexStateProps,
+} from "@/page/Main";
 import { useExchangeContext } from "@/context/ExchangeContext";
 import { CustomConfirmAlert, ErrorAlert } from "@/components/Alert";
 import { createCryptoDeposit } from "@/api/financial";
 import { useUserContext } from "@/context/UserContext";
 import { useEffect, useState } from "react";
-import { SiteResponseType } from "@/model/site";
+import { SiteType } from "@/model/site";
 import { getSite } from "@/api/site";
+import { ChainType, CryptoType } from "@/model/financial";
 
-export function DepositRequest(props: { indexState: IndexStateProps }) {
+export function DepositRequest(props: {
+  indexState: IndexStateProps;
+  processingDepositState: DepositProcessingStateProps;
+}) {
   const { user } = useUserContext();
   const { setState } = props.indexState;
+  const { setProcessingDeposit } = props.processingDepositState;
   const { selectedCrypto, depositKrw, calculatedCryptoAmount } =
     useExchangeContext();
 
-  const [siteObject, setSiteObject] = useState<SiteResponseType | null>(null);
+  const [siteObject, setSiteObject] = useState<SiteType | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -29,7 +38,25 @@ export function DepositRequest(props: { indexState: IndexStateProps }) {
 
   const theme = useTheme();
 
+  const chainMeet = (cryptoType: CryptoType): ChainType => {
+    switch (cryptoType) {
+      case "USDT":
+        return "TRON";
+      case "BTC":
+        return "BTC";
+      case "ETH":
+        return "ETH";
+    }
+  };
+
   const depositConfirm = () => {
+    if (!siteObject || !user) return;
+    const walletRow = siteObject.siteWalletList.find(
+      (wallet) => wallet.chainType === chainMeet(selectedCrypto),
+    );
+    if (!walletRow) {
+      return ErrorAlert("사이트의 지갑을 찾을 수 없습니다.");
+    }
     CustomConfirmAlert(
       <>
         <HeadLine theme={theme} textAlign="center">
@@ -58,18 +85,19 @@ export function DepositRequest(props: { indexState: IndexStateProps }) {
         //   krwAmount: depositKrw.toString(),
         // }),
         {
-          user &&
-            siteObject &&
-            createCryptoDeposit({
-              toAddress: siteObject.cryptoWallet,
-              fromAddress: user.cryptoWallet,
-              cryptoWallet: user.cryptoWallet,
-              cryptoType: selectedCrypto,
-              amount: amountRound(selectedCrypto, calculatedCryptoAmount),
-              krwAmount: depositKrw.toString(),
+          createCryptoDeposit({
+            toAddress: walletRow.cryptoWallet,
+            fromAddress: user.cryptoWallet,
+            cryptoWallet: user.cryptoWallet,
+            cryptoType: selectedCrypto,
+            amount: amountRound(selectedCrypto, calculatedCryptoAmount),
+            krwAmount: depositKrw.toString(),
+          })
+            .then((response) => {
+              setProcessingDeposit(response);
+              setState(3);
             })
-              .then(() => setState(3))
-              .catch((e) => ErrorAlert(e.message));
+            .catch((e) => ErrorAlert(e.message));
         },
       theme,
     );
