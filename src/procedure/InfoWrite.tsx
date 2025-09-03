@@ -99,9 +99,8 @@ export function InfoWrite(props: {
                 value={site}
                 onChange={(e) => setSite(e.target.value)}
                 css={css`
-                  * {
-                    background-color: #f4f4f4 !important;
-                    border-radius: 10px;
+                  span {
+                    color: ${theme.mode.textPrimary};
                   }
                 `}
               >

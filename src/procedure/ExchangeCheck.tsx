@@ -80,9 +80,8 @@ function ExchangeCheck(props: {
               selectedKeys={[selectedCrypto]}
               onChange={(e) => handleCryptoChange(e.target.value as CryptoType)}
               css={css`
-                * {
-                  background-color: #f4f4f4 !important;
-                  border-radius: 10px;
+                span {
+                  color: ${theme.mode.textPrimary};
                 }
               `}
             >
@@ -114,6 +113,17 @@ function ExchangeCheck(props: {
                       new BigNumber(calculatedCryptoAmount),
                     )
               }
+              css={css`
+                input {
+                  color: ${theme.mode.textPrimary} !important;
+                }
+                div {
+                  background-color: ${theme.mode.cardBackground} !important;
+                }
+                label {
+                  color: ${theme.mode.textPrimary};
+                }
+              `}
             />
             <Input
               endContent={
@@ -126,6 +136,17 @@ function ExchangeCheck(props: {
               labelPlacement="outside"
               type="text"
               value={depositKrw.toNumber().toLocaleString("ko-KR")}
+              css={css`
+                input {
+                  color: ${theme.mode.textPrimary} !important;
+                }
+                div {
+                  background-color: ${theme.mode.cardBackground} !important;
+                }
+                label {
+                  color: ${theme.mode.textPrimary};
+                }
+              `}
             />
             <div className="flex flex-row justify-between flex-wrap gap-1">
               {buttons.map((button) => (

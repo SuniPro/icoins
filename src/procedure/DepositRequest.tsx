@@ -1,4 +1,5 @@
-import { useTheme } from "@emotion/react";
+/** @jsxImportSource @emotion/react */
+import { css, useTheme } from "@emotion/react";
 import { Card, CardContainer, HeadLine } from "@/components/layouts/Layouts";
 import { Input } from "@heroui/react";
 import { Step } from "./Step";
@@ -63,6 +64,17 @@ export function DepositRequest(props: {
           정말 이대로 신청하시겠습니까?
         </HeadLine>
         <Input
+          css={css`
+            input {
+              color: ${theme.mode.textPrimary} !important;
+            }
+            div {
+              background-color: ${theme.mode.cardBackground} !important;
+            }
+            label {
+              color: ${theme.mode.textPrimary};
+            }
+          `}
           endContent={
             <div className="pointer-events-none flex items-center">
               <span className="text-default-400 text-small">
@@ -124,6 +136,17 @@ export function DepositRequest(props: {
               labelPlacement="outside"
               type="number"
               value={amountRound(selectedCrypto, calculatedCryptoAmount)}
+              css={css`
+                input {
+                  color: ${theme.mode.textPrimary} !important;
+                }
+                div {
+                  background-color: ${theme.mode.cardBackground} !important;
+                }
+                label {
+                  color: ${theme.mode.textPrimary};
+                }
+              `}
             />
             <Input
               endContent={
@@ -136,6 +159,17 @@ export function DepositRequest(props: {
               labelPlacement="outside"
               type="text"
               value={krwFormatter.format(depositKrw.toNumber())}
+              css={css`
+                input {
+                  color: ${theme.mode.textPrimary} !important;
+                }
+                div {
+                  background-color: ${theme.mode.cardBackground} !important;
+                }
+                label {
+                  color: ${theme.mode.textPrimary};
+                }
+              `}
             />
             <HeadLine theme={theme} textAlign="center">
               이 시세대로 신청을 원하신다면 다음을 누르세요.
