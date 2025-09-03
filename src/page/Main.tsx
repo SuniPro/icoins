@@ -93,9 +93,7 @@ export function Main() {
         <StyledContentsContainer>
           <Pager state={state}>
             <InfoWrite indexState={{ state, setState }} user={user} />
-            {user && (
-              <ExchangeCheck indexState={{ state, setState }} user={user} />
-            )}
+            <ExchangeCheck indexState={{ state, setState }} user={user} />
             <DepositRequest
               indexState={{ state, setState }}
               processingDepositState={{
