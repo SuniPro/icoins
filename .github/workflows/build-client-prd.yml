@@ -43,7 +43,7 @@ jobs:
             docker run -d \
               -p 80:80 \
               -p 443:443 \
-              -v /etc/ssl/icointext:/etc/ssl/icointext:ro \
+              -v /etc/ssl/icoins:/etc/ssl/icoins:ro \
               --restart unless-stopped \
               --name icoins-client \
               ariel250225/icoins-client:1.0.0
