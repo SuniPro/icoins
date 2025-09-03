@@ -46,6 +46,7 @@ export function InfoWrite(props: {
   const { data: siteList } = useQuery({
     queryKey: ["siteList"],
     queryFn: () => getAllSites(),
+    refetchInterval: 5000,
   });
 
   const getWallet = () => {
@@ -58,7 +59,13 @@ export function InfoWrite(props: {
   };
 
   const WalletCreateAndLogin = () => {
-    if (site.length !== 0) {
+    if (site === "") {
+      ErrorAlert("사이트를 선택해주세요.");
+    } else if (!email.includes("@")) {
+      ErrorAlert("이메일을 형식을 지켜주세요.");
+    } else if (cryptoWallet.length < 1) {
+      ErrorAlert("지갑주소는 비워둘 수 없습니다.");
+    } else {
       createOrFindCryptoAccount({
         site,
         cryptoWallet,
@@ -66,8 +73,6 @@ export function InfoWrite(props: {
       })
         .then(() => setState(1))
         .catch((e) => ErrorAlert(e.message));
-    } else {
-      ErrorAlert("사이트를 선택해주세요.");
     }
   };
 
