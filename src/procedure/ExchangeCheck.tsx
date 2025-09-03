@@ -13,12 +13,13 @@ import { UserInfoType } from "@/model/user";
 
 function ExchangeCheck(props: {
   indexState: IndexStateProps;
-  user: UserInfoType;
+  user: UserInfoType | null;
 }) {
   const { user } = props;
   const { setState } = props.indexState;
 
   const cryptoList = () => {
+    if (!user) return ["TRON"];
     switch (user.chainType) {
       case "BTC":
         return ["BTC"];
