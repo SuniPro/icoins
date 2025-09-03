@@ -1,10 +1,11 @@
+/** @jsxImportSource @emotion/react */
 import { Card, CardContainer, HeadLine } from "@/components/layouts/Layouts";
 import {
   amountRound,
   DepositProcessingStateProps,
   IndexStateProps,
 } from "@/page/Main";
-import { useTheme } from "@emotion/react";
+import { css, useTheme } from "@emotion/react";
 import { Input } from "@heroui/react";
 import { StyledFuncButton } from "@/components/styled/Button/Button";
 import BigNumber from "bignumber.js";
@@ -61,6 +62,19 @@ export function DepositApproval(props: {
               deposit.cryptoType,
               new BigNumber(deposit.amount),
             ).toString()}
+            css={css`
+              input {
+                color: ${theme.mode.textPrimary} !important;
+              }
+
+              div {
+                background-color: ${theme.mode.cardBackground} !important;
+              }
+
+              label {
+                color: ${theme.mode.textPrimary};
+              }
+            `}
           />
           {deposit.isSend ? (
             <HeadLine theme={theme} textAlign="center">

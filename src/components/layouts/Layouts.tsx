@@ -24,7 +24,7 @@ export const Card = styled.div<{ theme: Theme }>(
   ({ theme }) => css`
     width: 100%;
     padding: 30px 28px;
-    background-color: white;
+    background-color: ${theme.mode.cardBackground};
     display: flex;
     flex-direction: column;
 

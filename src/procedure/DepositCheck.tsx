@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import { getSite } from "@/api/site";
 import { Card, CardContainer, HeadLine } from "@/components/layouts/Layouts";
 import { SiteType } from "@/model/site";
@@ -6,7 +7,7 @@ import {
   DepositProcessingStateProps,
   IndexStateProps,
 } from "@/page/Main";
-import { useTheme } from "@emotion/react";
+import { css, useTheme } from "@emotion/react";
 import { QRCodeSVG } from "qrcode.react";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { Input } from "@heroui/react";
@@ -76,6 +77,17 @@ export function DepositCheck(props: {
             processingDeposit.cryptoType,
             new BigNumber(processingDeposit.amount),
           )}
+          css={css`
+            input {
+              color: ${theme.mode.textPrimary} !important;
+            }
+            div {
+              background-color: ${theme.mode.cardBackground} !important;
+            }
+            label {
+              color: ${theme.mode.textPrimary};
+            }
+          `}
         />
       </>,
       () => {
@@ -121,6 +133,17 @@ export function DepositCheck(props: {
               value={walletRow.cryptoWallet}
               onClick={() => inputCopy(walletRef)}
               ref={walletRef}
+              css={css`
+                input {
+                  color: ${theme.mode.textPrimary} !important;
+                }
+                div {
+                  background-color: ${theme.mode.cardBackground} !important;
+                }
+                label {
+                  color: ${theme.mode.textPrimary};
+                }
+              `}
             />
           )}
           <Input
@@ -140,6 +163,17 @@ export function DepositCheck(props: {
               processingDeposit.cryptoType,
               new BigNumber(processingDeposit.amount),
             )}
+            css={css`
+              input {
+                color: ${theme.mode.textPrimary} !important;
+              }
+              div {
+                background-color: ${theme.mode.cardBackground} !important;
+              }
+              label {
+                color: ${theme.mode.textPrimary};
+              }
+            `}
           />
           <HeadLine theme={theme} textAlign="center">
             입금을 완료하시고 아래의 확인요청을 눌러주세요.
