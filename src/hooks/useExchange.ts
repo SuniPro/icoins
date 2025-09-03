@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import BigNumber from "bignumber.js";
 import { CryptoType } from "@/model/financial";
 import { getExchangeInfo } from "@/api/financial";
 
 export function useExchange(initialCrypto: CryptoType = "USDT") {
+  const [currentPrice, setCurrentPrice] = useState<BigNumber>(new BigNumber(0));
   const [selectedCrypto, setSelectedCrypto] =
     useState<CryptoType>(initialCrypto);
   const [depositKrw, setDepositKrw] = useState<BigNumber>(BigNumber(0));
@@ -12,7 +13,13 @@ export function useExchange(initialCrypto: CryptoType = "USDT") {
   const { data: exchangeInfo, isLoading: isExchangeInfoLoading } = useQuery({
     queryKey: ["getExchangeInfo", selectedCrypto],
     queryFn: () => getExchangeInfo(selectedCrypto),
+    refetchInterval: 100000,
   });
+
+  useEffect(() => {
+    if (!exchangeInfo) return;
+    setCurrentPrice(exchangeInfo.closing_price);
+  }, [exchangeInfo]);
 
   const handleCryptoChange = (newCrypto: CryptoType) => {
     setSelectedCrypto(newCrypto);
@@ -27,8 +34,6 @@ export function useExchange(initialCrypto: CryptoType = "USDT") {
     exchangeInfo && !depositKrw.isEqualTo(0)
       ? new BigNumber(depositKrw).dividedBy(exchangeInfo.closing_price)
       : new BigNumber(0);
-
-  const currentPrice = exchangeInfo?.closing_price ?? new BigNumber(0);
 
   return {
     selectedCrypto,
