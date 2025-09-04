@@ -24,6 +24,9 @@ export function Chat(props: { telegramName: string }) {
 
 const StyledSendIcon = styled(SendIcon)`
   transform: translateX(-3%);
+  path {
+    stroke: white;
+  }
 `;
 
 // const NotifyBadge = styled(StyledBadge)`
