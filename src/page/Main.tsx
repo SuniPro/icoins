@@ -133,7 +133,7 @@ export function Main() {
         </StyledContentsContainer>
         <footer style={{ width: "100%", height: "20px" }}></footer>
       </MainContainer>
-      <Chat telegramName={siteTelegramName} />
+      {user && <Chat telegramName={siteTelegramName} />}
     </ExchangeContextProvider>
   );
 }
