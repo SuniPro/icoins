@@ -26,6 +26,7 @@ export function DepositApproval(props: {
     queryKey: ["getDepositById"],
     queryFn: () => getDepositById(processingDeposit!.id),
     enabled: Boolean(processingDeposit),
+    refetchInterval: 60000,
   });
 
   const sendCheck = () => {
