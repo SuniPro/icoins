@@ -17,6 +17,8 @@ import { useUserContext } from "@/context/UserContext";
 import { getLatestDepositByWallet } from "@/api/financial";
 import { SuccessAlert } from "@/components/Alert";
 import { useWindowContext } from "@/context/WindowContext";
+import { Chat } from "@/components/Chat";
+import { getSite } from "@/api/site";
 
 export interface IndexStateProps {
   state: number;
@@ -81,6 +83,15 @@ export function Main() {
     }
   }, [depositFromServer]);
 
+  const [siteTelegramName, setSiteTelegramName] = useState<string>("");
+
+  useEffect(() => {
+    if (!user) return;
+    getSite(user.site).then((site) =>
+      setSiteTelegramName(site.telegramUsername),
+    );
+  }, [user]);
+
   return (
     <ExchangeContextProvider>
       <MainContainer width={mainWidth}>
@@ -122,6 +133,7 @@ export function Main() {
         </StyledContentsContainer>
         <footer style={{ width: "100%", height: "20px" }}></footer>
       </MainContainer>
+      <Chat telegramName={siteTelegramName} />
     </ExchangeContextProvider>
   );
 }
