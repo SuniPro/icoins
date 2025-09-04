@@ -81,9 +81,11 @@ export function DepositCheck(props: {
             input {
               color: ${theme.mode.textPrimary} !important;
             }
+
             div {
               background-color: ${theme.mode.cardBackground} !important;
             }
+
             label {
               color: ${theme.mode.textPrimary};
             }
@@ -114,15 +116,17 @@ export function DepositCheck(props: {
         <HeadLine theme={theme}>입금 확인 요청</HeadLine>
         <div className="flex flex-col gap-4 my-5">
           <div className="w-full flex flex-col items-center">
-            {siteObject && walletRow && (
-              <QRCodeSVG
-                value={walletRow.cryptoWallet}
-                size={200}
-                bgColor="#ffffff"
-                fgColor="#000000"
-                level="M"
-              />
-            )}
+            <div className="w-[220px] h-[220px] bg-white flex justify-center items-center rounded-[20px]">
+              {siteObject && walletRow && (
+                <QRCodeSVG
+                  value={walletRow.cryptoWallet}
+                  size={200}
+                  bgColor="#ffffff"
+                  fgColor="#000000"
+                  level="M"
+                />
+              )}
+            </div>
           </div>
           {walletRow && (
             <Input
@@ -137,9 +141,11 @@ export function DepositCheck(props: {
                 input {
                   color: ${theme.mode.textPrimary} !important;
                 }
+
                 div {
                   background-color: ${theme.mode.cardBackground} !important;
                 }
+
                 label {
                   color: ${theme.mode.textPrimary};
                 }
@@ -167,9 +173,11 @@ export function DepositCheck(props: {
               input {
                 color: ${theme.mode.textPrimary} !important;
               }
+
               div {
                 background-color: ${theme.mode.cardBackground} !important;
               }
+
               label {
                 color: ${theme.mode.textPrimary};
               }
