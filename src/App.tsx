@@ -11,6 +11,7 @@ import { Provider } from "./provider";
 import { Main } from "./page/Main";
 import { darkTheme, defaultTheme } from "./styles/theme";
 import { UserContextProvider } from "./context/UserContext";
+import { Tutorial } from "@/page/Tutorial";
 
 const QUERY_CLIENT = new QueryClient();
 
@@ -31,6 +32,7 @@ function App() {
               <UserContextProvider>
                 <Routes>
                   <Route path="/" element={<Main />} />
+                  <Route path="/tutorial" element={<Tutorial />} />
                 </Routes>
               </UserContextProvider>
             </Provider>
