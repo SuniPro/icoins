@@ -23,6 +23,10 @@ export function GlobalStyled() {
         z-index: -1;
         background-color: ${theme.mode.bodyBackground};
 
+        #root {
+          color: ${theme.mode.textPrimary};
+        }
+
         :root {
           font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
           line-height: 1.5;
@@ -46,7 +50,6 @@ export function GlobalStyled() {
           margin: 0;
           display: flex;
           place-items: center;
-          color: ${theme.mode.textPrimary};
           background-color: ${theme.mode.bodyBackground};
 
           box-sizing: border-box;

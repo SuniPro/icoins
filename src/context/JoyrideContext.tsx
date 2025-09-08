@@ -100,7 +100,7 @@ export const JoyrideProvider: React.FC<{ children: React.ReactNode }> = ({
       target: ".input-write-site",
       content: (
         <div className="flex flex-col gap-4">
-          <h1>처음 가입하는 경우는 사이트부터 선택해줍니다.</h1>
+          <h1>정상적으로 사이트가 입력되었는지 확인합니다.</h1>
           <div className="flex flex-row justify-around">
             <FuncItem
               func={() => navigate("/")}
