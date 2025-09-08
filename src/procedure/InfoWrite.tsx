@@ -1,6 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { useQuery } from "@tanstack/react-query";
-import { getAllSites } from "@/api/site";
 import { css, useTheme } from "@emotion/react";
 import { Input, Select, SelectItem } from "@heroui/react";
 import { Card, CardContainer, HeadLine } from "@/components/layouts/Layouts";
@@ -18,6 +16,7 @@ import {
 } from "@/components/styled/icons";
 import { ErrorAlert } from "@/components/Alert/Alerts";
 import { UserInfoType } from "@/model/user";
+import { useLocation } from "react-router-dom";
 
 export function InfoWrite(props: {
   indexState: IndexStateProps;
@@ -25,6 +24,16 @@ export function InfoWrite(props: {
 }) {
   const { user } = props;
   const { setState } = props.indexState;
+  const location = useLocation();
+
+  const searchParams = new URLSearchParams(location.search);
+
+  const siteParam = searchParams.get("site") || null;
+
+  useEffect(() => {
+    if (!siteParam) return;
+    setSite(siteParam);
+  }, [siteParam]);
 
   useEffect(() => {
     if (user) {
@@ -42,12 +51,6 @@ export function InfoWrite(props: {
   const [site, setSite] = useState<string>("");
   const [email, setEmail] = useState("");
   const [cryptoWallet, setCryptoWallet] = useState("");
-
-  const { data: siteList } = useQuery({
-    queryKey: ["siteList"],
-    queryFn: () => getAllSites(),
-    refetchInterval: 5000,
-  });
 
   const getWallet = () => {
     getCryptoAccountByEmail(email)
@@ -82,8 +85,6 @@ export function InfoWrite(props: {
     WalletCreateAndLogin();
   };
 
-  if (!siteList) return;
-
   return (
     <>
       <CardContainer>
@@ -95,6 +96,7 @@ export function InfoWrite(props: {
                 className="max-w-full"
                 label="사이트를 선택하세요"
                 variant="bordered"
+                aria-readonly={true}
                 selectedKeys={[site]}
                 value={site}
                 onChange={(e) => setSite(e.target.value)}
@@ -104,10 +106,8 @@ export function InfoWrite(props: {
                   }
                 `}
               >
-                {siteList.map((site) => (
-                  <SelectItem key={site.site}>
-                    {site.site.toUpperCase()}
-                  </SelectItem>
+                {[site].map((site) => (
+                  <SelectItem key={site}>{site.toUpperCase()}</SelectItem>
                 ))}
               </Select>
               <Input
