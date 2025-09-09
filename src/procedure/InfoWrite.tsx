@@ -93,22 +93,19 @@ export function InfoWrite(props: {
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4 my-5">
               <Select
+                isDisabled
                 className="max-w-full"
                 label="사이트를 선택하세요"
                 variant="bordered"
-                aria-readonly={true}
                 selectedKeys={[site]}
                 value={site}
-                onChange={(e) => setSite(e.target.value)}
                 css={css`
                   span {
                     color: ${theme.mode.textPrimary};
                   }
                 `}
               >
-                {[site].map((site) => (
-                  <SelectItem key={site}>{site.toUpperCase()}</SelectItem>
-                ))}
+                <SelectItem key={site}>{site.toUpperCase()}</SelectItem>
               </Select>
               <Input
                 label="이메일"
